@@ -11,11 +11,11 @@ const Layout = () => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+    <div className="flex flex-col min-h-screen">
       <Header onToggleCollapse={handleToggleCollapse} />
-      <div style={{ display: "flex", flex: 1 }}>
+      <div className="flex flex-1">
         <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
-        <main style={{ padding: "0 6rem" }}>
+        <main className="px-24">
           <Outlet />
         </main>
       </div>

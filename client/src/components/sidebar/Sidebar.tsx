@@ -14,9 +14,8 @@ const items = [
 
 const Sidebar = ({ collapsed, setCollapsed }: { collapsed: boolean; setCollapsed: (collapsed: boolean) => void }) => {
   return (
-    <div style={{ minHeight: '100vh' }}>
-      <Sider theme='light' collapsible collapsed={collapsed} onCollapse={setCollapsed} 
-      style={{ minHeight: '100vh', position: 'fixed' }}>
+    <div className="min-h-screen">
+      <Sider theme="light" collapsible collapsed={collapsed} onCollapse={setCollapsed} className="min-h-screen fixed">
         <div className="demo-logo-vertical" />
         <Menu mode="inline" items={items} />
       </Sider>
