@@ -1,13 +1,17 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using TatsYum.Data;
+using TatsYum.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddScoped<AuthService>();
+
 
 // Налаштування JWT
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
@@ -38,6 +42,10 @@ builder.Services.AddAuthorization();
 // Підключення до бази даних
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 // Swagger з підтримкою JWT
 builder.Services.AddEndpointsApiExplorer();

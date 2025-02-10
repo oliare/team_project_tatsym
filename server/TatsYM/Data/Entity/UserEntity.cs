@@ -26,7 +26,7 @@ namespace TatsYum.Models.Users
         public string Email { get; set; } = string.Empty;
 
         [Required]
-        public string PasswordHash { get; set; } = string.Empty; 
+        public string PasswordHash { get; set; } = string.Empty;
 
         [Url]
         public string? Avatar { get; set; }
