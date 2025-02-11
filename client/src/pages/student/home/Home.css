@@ -1,0 +1,65 @@
+.container {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: space-between;
+}
+  
+.header {
+    text-align: center;
+}
+  
+.section {
+    margin-bottom: 30px;
+    flex: 1;
+}
+  
+.leaderboard {
+    list-style-type: none;
+    padding: 0;
+}
+  
+.leaderboard-entry {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px 0;
+    margin-left: -150px;
+}
+  
+.leaderboard-info {
+    display: flex;
+    flex-direction: column;
+}
+  
+.leaderboard-name {
+    font-weight: bold;
+}
+  
+.leaderboard-points {
+    color: #888;
+}
+.leaderboard-section {
+    text-align: left; 
+}
+.leaderboard-section h2 {
+    margin-top: 30px; 
+    margin-left: -150px;
+}
+.progress-section {
+    background: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    flex: 1;
+    margin-left: 20px;
+    height: 50%;
+}
+  
+.progress-item {
+    margin: 10px 0;
+    padding: 5px;
+}
