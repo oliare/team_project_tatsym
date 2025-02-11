@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using TatsYum.Models.Users;
+using TatsYum.Models.Authentication;
 
 namespace TatsYum.Services
 {
@@ -24,7 +25,7 @@ namespace TatsYum.Services
             _config = config;
         }
 
-        public async Task<(bool Success, string? Token, string? ErrorMessage)> RegisterAsync(UserRegisterModel model)
+        public async Task<AuthResult> RegisterAsync(UserRegisterModel model)
         {
             var user = new UserEntity
             {
@@ -39,28 +40,51 @@ namespace TatsYum.Services
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
-                return (false, null, string.Join(", ", result.Errors));
+            {
+                return new AuthResult
+                {
+                    Success = false,
+                    ErrorMessage = string.Join(", ", result.Errors.Select(e => e.Description))
+                };
+            }
 
-
-
-            // Призначаємо роль
+            // Assign role to the user
             await _userManager.AddToRoleAsync(user, model.Role);
 
-
-            return (true, await GenerateJwtToken(user), null);
+            return new AuthResult
+            {
+                Success = true,
+                Token = await GenerateJwtToken(user)
+            };
         }
 
-        public async Task<(bool Success, string? Token, string? ErrorMessage)> LoginAsync(LoginModel model)
+        public async Task<AuthResult> LoginAsync(LoginModel model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
-                return (false, null, "Invalid email or password.");
+            {
+                return new AuthResult
+                {
+                    Success = false,
+                    ErrorMessage = "Invalid email or password."
+                };
+            }
 
             var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
             if (!result.Succeeded)
-                return (false, null, "Invalid email or password.");
+            {
+                return new AuthResult
+                {
+                    Success = false,
+                    ErrorMessage = "Invalid email or password."
+                };
+            }
 
-            return (true, await GenerateJwtToken(user), null);
+            return new AuthResult
+            {
+                Success = true,
+                Token = await GenerateJwtToken(user)
+            };
         }
 
         private async Task<string> GenerateJwtToken(UserEntity user)

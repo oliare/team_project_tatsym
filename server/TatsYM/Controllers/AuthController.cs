@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TatsYum.Models.Users;
+using TatsYum.Models.Authentication; // Модель AuthResult
 using TatsYum.Services;
 
 namespace TatsYum.Controllers
@@ -21,28 +22,29 @@ namespace TatsYum.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserRegisterModel model)
         {
-            var (success, token, error) = await _authService.RegisterAsync(model);
-            if (!success)
+            AuthResult result = await _authService.RegisterAsync(model);
+
+            if (!result.Success)
             {
-                return BadRequest(new { message = error });
+                // Можна також кидати виняток, якщо у вас реалізована централізована обробка винятків.
+                return BadRequest(new { message = result.ErrorMessage });
             }
 
-            return Ok(new { token });
+            return Ok(new { token = result.Token });
         }
 
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            var (success, token, error) = await _authService.LoginAsync(model);
-            if (!success)
+            AuthResult result = await _authService.LoginAsync(model);
+
+            if (!result.Success)
             {
-                return Unauthorized(new { message = error });
+                return Unauthorized(new { message = result.ErrorMessage });
             }
 
-            return Ok(new { token });
+            return Ok(new { token = result.Token });
         }
-
     }
 }
-//throw exception
