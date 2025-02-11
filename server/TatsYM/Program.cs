@@ -1,59 +1,22 @@
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 using TatsYum.Data;
+using TatsYum.Models.Users;
 using TatsYum.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Додаємо контролери
 builder.Services.AddControllers();
-builder.Services.AddScoped<AuthService>();
 
-
-// Налаштування JWT
-var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-var key = Encoding.UTF8.GetBytes(jwtSettings["Secret"]!);
-
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.RequireHttpsMetadata = false;
-    options.SaveToken = true;
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key),
-        ValidateIssuer = false, // Можна змінити на true та вказати Issuer
-        ValidateAudience = false, // Можна змінити на true та вказати Audience
-        ValidateLifetime = true
-    };
-});
-
-// Додаємо авторизацію
-builder.Services.AddAuthorization();
-
-// Підключення до бази даних
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
-
-// Swagger з підтримкою JWT
-builder.Services.AddEndpointsApiExplorer();
+// Додаємо Swagger для API документації
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "TatsYum API", Version = "v1" });
 
-    // Налаштування Swagger для JWT
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -61,7 +24,7 @@ builder.Services.AddSwaggerGen(c =>
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "Введіть токен у форматі: Bearer {your_token}"
+        Description = "Enter token in the format: Bearer {your_token}"
     });
 
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -75,23 +38,62 @@ builder.Services.AddSwaggerGen(c =>
                     Id = "Bearer"
                 }
             },
-            new string[] {}
+            new string[] { }
         }
     });
 });
 
+
+// Налаштування для JWT аутентифікації
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+var key = Encoding.UTF8.GetBytes(jwtSettings["Secret"]!);
+
+builder.Services.AddAuthentication()
+    .AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = false;
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = false, // Можна змінити на true та вказати Issuer
+            ValidateAudience = false, // Можна змінити на true та вказати Audience
+            ValidateLifetime = true
+        };
+    });
+
+// Додаємо авторизацію
+builder.Services.AddAuthorization();
+
+builder.Services.AddScoped<AuthService>();
+
+// Підключення до бази даних
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Додаємо Identity
+builder.Services.AddIdentity<UserEntity, RoleEntity>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
 var app = builder.Build();
 
+// Додаємо Swagger UI, якщо середовище розробки
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "TatsYum API v1");
+    });
 }
 
-// Використання JWT-аутентифікації
+// Використовуємо аутентифікацію та авторизацію
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Картки контролерів
 app.MapControllers();
 
 app.Run();

@@ -22,7 +22,10 @@ namespace TatsYum.Controllers
         public async Task<IActionResult> Register([FromBody] UserRegisterModel model)
         {
             var (success, token, error) = await _authService.RegisterAsync(model);
-            if (!success) return BadRequest(error);
+            if (!success)
+            {
+                return BadRequest(new { message = error });
+            }
 
             return Ok(new { token });
         }
@@ -32,9 +35,14 @@ namespace TatsYum.Controllers
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
             var (success, token, error) = await _authService.LoginAsync(model);
-            if (!success) return Unauthorized(error);
+            if (!success)
+            {
+                return Unauthorized(new { message = error });
+            }
 
             return Ok(new { token });
         }
+
     }
 }
+//throw exception

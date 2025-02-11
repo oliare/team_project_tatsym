@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,11 +13,11 @@ namespace TatsYum.Services
 {
     public class AuthService
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<UserEntity> _userManager;
+        private readonly SignInManager<UserEntity> _signInManager;
         private readonly IConfiguration _config;
 
-        public AuthService(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IConfiguration config)
+        public AuthService(UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager, IConfiguration config)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -25,13 +26,28 @@ namespace TatsYum.Services
 
         public async Task<(bool Success, string? Token, string? ErrorMessage)> RegisterAsync(UserRegisterModel model)
         {
-            var user = new IdentityUser { UserName = model.Email, Email = model.Email };
+            var user = new UserEntity
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Avatar = model.Avatar,
+                DateOfBirth = model.DateOfBirth
+            };
+
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
                 return (false, null, string.Join(", ", result.Errors));
 
-            return (true, GenerateJwtToken(user), null);
+
+
+            // Призначаємо роль
+            await _userManager.AddToRoleAsync(user, model.Role);
+
+
+            return (true, await GenerateJwtToken(user), null);
         }
 
         public async Task<(bool Success, string? Token, string? ErrorMessage)> LoginAsync(LoginModel model)
@@ -44,13 +60,16 @@ namespace TatsYum.Services
             if (!result.Succeeded)
                 return (false, null, "Invalid email or password.");
 
-            return (true, GenerateJwtToken(user), null);
+            return (true, await GenerateJwtToken(user), null);
         }
 
-        private string GenerateJwtToken(IdentityUser user)
+        private async Task<string> GenerateJwtToken(UserEntity user)
         {
             var jwtSettings = _config.GetSection("JwtSettings");
             var key = Encoding.UTF8.GetBytes(jwtSettings["Secret"]!);
+            var tokenLifetimeMinutes = jwtSettings.GetValue<int>("TokenLifetimeMinutes");
+
+            var roles = await _userManager.GetRolesAsync(user);
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -58,9 +77,11 @@ namespace TatsYum.Services
                 Subject = new ClaimsIdentity(new[]
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.Id),
-                    new Claim(ClaimTypes.Email, user.Email)
-                }),
-                Expires = DateTime.UtcNow.AddHours(1),
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.GivenName, user.FirstName),
+                    new Claim(ClaimTypes.Surname, user.LastName),
+                }.Concat(roles.Select(role => new Claim(ClaimTypes.Role, role)))),
+                Expires = DateTime.UtcNow.AddMinutes(tokenLifetimeMinutes),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
