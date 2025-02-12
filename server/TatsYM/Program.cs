@@ -9,10 +9,8 @@ using TatsYum.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Додаємо контролери
 builder.Services.AddControllers();
 
-// Додаємо Swagger для API документації
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "TatsYum API", Version = "v1" });
@@ -43,8 +41,6 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-
-// Налаштування для JWT аутентифікації
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 var key = Encoding.UTF8.GetBytes(jwtSettings["Secret"]!);
 
@@ -57,29 +53,25 @@ builder.Services.AddAuthentication()
         {
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(key),
-            ValidateIssuer = false, // Можна змінити на true та вказати Issuer
-            ValidateAudience = false, // Можна змінити на true та вказати Audience
+            ValidateIssuer = false,
+            ValidateAudience = false,
             ValidateLifetime = true
         };
     });
 
-// Додаємо авторизацію
 builder.Services.AddAuthorization();
 
 builder.Services.AddScoped<AuthService>();
 
-// Підключення до бази даних
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Додаємо Identity
 builder.Services.AddIdentity<UserEntity, RoleEntity>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
 var app = builder.Build();
 
-// Додаємо Swagger UI, якщо середовище розробки
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -89,11 +81,9 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-// Використовуємо аутентифікацію та авторизацію
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Картки контролерів
 app.MapControllers();
 
 app.Run();

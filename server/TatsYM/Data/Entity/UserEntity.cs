@@ -25,7 +25,5 @@ namespace TatsYum.Models.Users
 
         public bool IsActive { get; set; } = true;
 
-        // Навігаційна властивість для ролей
-        public ICollection<IdentityUserRole<string>> UserRoles { get; set; } = new List<IdentityUserRole<string>>();
     }
 }

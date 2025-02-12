@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TatsYum.Models.Users;
-using TatsYum.Models.Authentication; // Модель AuthResult
+using TatsYum.Models.Authentication;
 using TatsYum.Services;
 
 namespace TatsYum.Controllers
@@ -26,7 +26,6 @@ namespace TatsYum.Controllers
 
             if (!result.Success)
             {
-                // Можна також кидати виняток, якщо у вас реалізована централізована обробка винятків.
                 return BadRequest(new { message = result.ErrorMessage });
             }
 

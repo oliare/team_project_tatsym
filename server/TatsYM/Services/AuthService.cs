@@ -47,8 +47,6 @@ namespace TatsYum.Services
                     ErrorMessage = string.Join(", ", result.Errors.Select(e => e.Description))
                 };
             }
-
-            // Assign role to the user
             await _userManager.AddToRoleAsync(user, model.Role);
 
             return new AuthResult
