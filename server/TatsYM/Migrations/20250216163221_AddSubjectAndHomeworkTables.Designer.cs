@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TatsYum.Data;
 
@@ -11,9 +12,11 @@ using TatsYum.Data;
 namespace TatsYM.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250216163221_AddSubjectAndHomeworkTables")]
+    partial class AddSubjectAndHomeworkTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -128,7 +131,7 @@ namespace TatsYM.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("TatsYM.Data.Entity.HomeworkAssignments.HomeworkEntity", b =>
+            modelBuilder.Entity("TatsYM.Data.Entity.HomeworkAssignments.Homework", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -140,11 +143,8 @@ namespace TatsYM.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FilePath")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<DateTime>("IssuedDate")
                         .HasColumnType("datetime2");
@@ -167,7 +167,7 @@ namespace TatsYM.Migrations
                     b.ToTable("Homeworks");
                 });
 
-            modelBuilder.Entity("TatsYM.Data.Entity.HomeworkAssignments.SubjectEntity", b =>
+            modelBuilder.Entity("TatsYM.Data.Entity.HomeworkAssignments.Subject", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -364,9 +364,9 @@ namespace TatsYM.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TatsYM.Data.Entity.HomeworkAssignments.HomeworkEntity", b =>
+            modelBuilder.Entity("TatsYM.Data.Entity.HomeworkAssignments.Homework", b =>
                 {
-                    b.HasOne("TatsYM.Data.Entity.HomeworkAssignments.SubjectEntity", "Subject")
+                    b.HasOne("TatsYM.Data.Entity.HomeworkAssignments.Subject", "Subject")
                         .WithMany("Homeworks")
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -375,7 +375,7 @@ namespace TatsYM.Migrations
                     b.Navigation("Subject");
                 });
 
-            modelBuilder.Entity("TatsYM.Data.Entity.HomeworkAssignments.SubjectEntity", b =>
+            modelBuilder.Entity("TatsYM.Data.Entity.HomeworkAssignments.Subject", b =>
                 {
                     b.Navigation("Homeworks");
                 });
