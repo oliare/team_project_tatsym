@@ -20,7 +20,7 @@
     padding: 0;
 }
   
-.leaderboard-entry {
+.leaderboardEntry {
     display: flex;
     align-items: center;
     background: #fff;
@@ -31,26 +31,26 @@
     margin-left: -150px;
 }
   
-.leaderboard-info {
+.leaderboardInfo {
     display: flex;
     flex-direction: column;
 }
   
-.leaderboard-name {
+.leaderboardName {
     font-weight: bold;
 }
   
-.leaderboard-points {
+.leaderboardPoints {
     color: #888;
 }
-.leaderboard-section {
+.leaderboardSection {
     text-align: left; 
 }
-.leaderboard-section h2 {
+.leaderboardSection h2 {
     margin-top: 30px; 
     margin-left: -150px;
 }
-.progress-section {
+.progressSection {
     background: #fff;
     padding: 15px;
     border-radius: 5px;
@@ -59,7 +59,7 @@
     height: 50%;
 }
   
-.progress-item {
+.progressItem {
     margin: 10px 0;
     padding: 5px;
 }

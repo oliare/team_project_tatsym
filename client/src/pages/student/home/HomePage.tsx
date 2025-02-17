@@ -1,5 +1,6 @@
 import React from 'react';
-import './Home.css';
+import style from './Home.module.css';
+
 
 interface LeaderboardEntry {
   name: string;
@@ -44,31 +45,31 @@ const ratingData: RatingData = {
 
 const App: React.FC = () => {
   return (
-    <div className="container">
-      <header className="header">
+    <div className={`${style.container}`}>
+      <header className={`${style.header}`}>
         <h1>Огляд успішності студентів</h1>
       </header>
-      <div className="leaderboard-section">
+      <div className={`${style.leaderboardSection}`}>
         <h2>Таблиця лідерів</h2>
-        <ul className="leaderboard">
+        <ul className={`${style.leaderboard}`}>
           {leaderboardData.map((entry, index) => (
-            <li key={index} className="leaderboard-entry">
-              <div className="leaderboard-info">
-                <span className="leaderboard-name">{entry.name}</span>
-                <span className="leaderboard-points">{entry.points} балів</span>
+            <li key={index} className={`${style.leaderboardEntry}`}>
+              <div className={`${style.leaderboardInfo}`}>
+                <span className={`${style.leaderboardName}`}>{entry.name}</span>
+                <span className={`${style.leaderboardPoints}`}>{entry.points} балів</span>
               </div>
             </li>
           ))}
         </ul>
       </div>
-      <div className="progress-section">
+      <div className={`${style.progressSection}`}>
         <h2>Загальний прогрес:</h2>
-        <div className="progress">
-          <div className="progress-item">
+        <div className={`${style.progress}`}>
+          <div className={`${style.progressItem}`}>
             <span>Середній бал класу:</span>
             <span>{ratingData.averageScore}</span>
           </div>
-          <div className="progress-item">
+          <div className={`${style.progressItem}`}>
             <span>Індивідуальний прогрес:</span>
             <div>
               <span>Самостійна робота: {ratingData.individualScore}</span>
