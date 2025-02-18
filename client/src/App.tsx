@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./pages/Layout.tsx";
 import Home from "./pages/home/HomePage.tsx";
 import LoginPage from "./pages/students/login/LoginPage.tsx";
+import UserMaterials from "./pages/userMaterials/UserMaterials.tsx";
 
 const App: React.FC = () => {
   return (
@@ -10,8 +11,9 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
+          <Route path="/userMaterials" element={<UserMaterials />} />
         </Route>
-        <Route path="/login" element={<LoginPage/>}/>
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
     </Router>
   );
