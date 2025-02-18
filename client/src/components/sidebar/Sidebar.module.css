@@ -1,0 +1,28 @@
+@font-face {
+    font-family: "M PLUS Rounded 1c";
+    src: url("/fonts/MPLUSRounded1c-Medium.ttf");
+}
+
+li {
+    font-family: "M PLUS Rounded 1c", sans-serif;
+    font-size: 15px;
+    color: #01284e8e !important;
+    margin-bottom: 15px !important;
+}
+
+li svg {
+    width: 23px;
+    fill: #01274e;
+    opacity: 0.5;
+    margin-right: 5px;
+}
+
+li:hover {
+    color: #01274e !important;
+}
+
+li:hover svg {
+    width: 23px;
+    opacity: 0.9;
+    fill: #01274e;
+}
