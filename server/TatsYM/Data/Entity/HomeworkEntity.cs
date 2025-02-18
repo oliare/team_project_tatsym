@@ -13,6 +13,6 @@ namespace TatsYM.Data.Entity.HomeworkAssignments
         public DateTime IssuedDate { get; set; }
         public DateTime Deadline { get; set; }
         public int SubjectId { get; set; }
-        public required SubjectEntity Subject { get; set; }
+        public SubjectEntity? Subject { get; set; }
     }
 }

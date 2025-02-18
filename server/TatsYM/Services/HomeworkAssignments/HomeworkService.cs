@@ -1,44 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
 using TatsYM.Data.Entity.HomeworkAssignments;
 using TatsYM.DTOs.Homework;
-using TatsYM.Repositories.HomeworkAssignmets;
-using TatsYum.Data;
+using TatsYM.DTOs.HomeworkAssignments;
+using TatsYM.Interfaces.Homework;
 
 namespace TatsYM.Services.HomeworkAssignments
 {
-    public interface IHomeworkService
-    {
-        Task<List<HomeworkDto>> List();
-        Task<HomeworkDto> GetById(int id);
-        Task<HomeworkDto> Create(HomeworkDto item);
-        Task<HomeworkDto> Update(HomeworkDto item);
-    }
     public class HomeworkService : IHomeworkService
     {
-
         private readonly IHomeworkRepository _hwRepository;
+        private readonly IMapper _mapper;
 
-        public HomeworkService(IHomeworkRepository hwRepository)
+        public HomeworkService(IHomeworkRepository hwRepository, IMapper mapper)
         {
             _hwRepository = hwRepository;
+            _mapper = mapper;
         }
 
-        public async Task<List<HomeworkDto>> List()
+        public async Task<List<HomeworkDto>> GetAll()
         {
-            var list = await _hwRepository.List();
-
-            var homeworkDto = list.Select(hw => new HomeworkDto
-            {
-                Id = hw.Id,
-                Title = hw.Title,
-                Description = hw.Description,
-                Logo = hw.Logo,
-                FilePath = hw.FilePath,
-                IssuedDate = hw.IssuedDate,
-                Deadline = hw.Deadline,
-                SubjectId = hw.SubjectId
-            }).ToList();
-
+            var list = await _hwRepository.GetAll();
+            var homeworkDto = _mapper.Map<List<HomeworkDto>>(list);
             return homeworkDto;
         }
 
@@ -58,67 +40,23 @@ namespace TatsYM.Services.HomeworkAssignments
             };
         }
 
-        public async Task<HomeworkDto> Create(HomeworkDto item)
+        public async Task<HomeworkDto> Create(HomeworkCreateDto item)
         {
-            var subject = await _hwRepository.GetSubjectById(item.SubjectId);
-
-            var hw = new HomeworkEntity
-            {
-                Id = item.Id,
-                Title = item.Title,
-                Description = item.Description,
-                Logo = item.Logo,
-                FilePath = item.FilePath,
-                IssuedDate = item.IssuedDate,
-                Deadline = item.Deadline,
-                Subject = subject
-            };
-
+            var hw = _mapper.Map<HomeworkEntity>(item);
             var new_hw = await _hwRepository.Create(hw);
-
-            return new HomeworkDto
-            {
-                Id = new_hw.Id,
-                Title = new_hw.Title,
-                Description = new_hw.Description,
-                Logo = new_hw.Logo,
-                FilePath = new_hw.FilePath,
-                IssuedDate = new_hw.IssuedDate,
-                Deadline = new_hw.Deadline,
-                SubjectId = new_hw.SubjectId
-            };
+            return _mapper.Map<HomeworkDto>(new_hw);
         }
-
+        
         public async Task<HomeworkDto> Update(HomeworkDto item)
         {
-            var subject = await _hwRepository.GetSubjectById(item.SubjectId);
+            var hw = _mapper.Map<HomeworkEntity>(item);
+            var hw_upd = await _hwRepository.Update(hw);
+            return _mapper.Map<HomeworkDto>(hw_upd); 
+        }
 
-            var hw = new HomeworkEntity
-            {
-                Id = item.Id,
-                Title = item.Title,
-                Description = item.Description,
-                Logo = item.Logo,
-                FilePath = item.FilePath,
-                IssuedDate = item.IssuedDate,
-                Deadline = item.Deadline,
-                Subject = subject
-            };
-
-            var new_hw = await _hwRepository.Update(hw);
-
-            return new HomeworkDto
-            {
-                Id = new_hw.Id,
-                Title = new_hw.Title,
-                Description = new_hw.Description,
-                Logo = new_hw.Logo,
-                FilePath = new_hw.FilePath,
-                IssuedDate = new_hw.IssuedDate,
-                Deadline = new_hw.Deadline,
-                SubjectId = new_hw.SubjectId
-            };
+        public Task Delete(int id)
+        {
+            return _hwRepository.Delete(id);
         }
     }
-
 }
