@@ -128,7 +128,7 @@ namespace TatsYM.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("TatsYM.Data.Entity.HomeworkAssignments.HomeworkEntity", b =>
+            modelBuilder.Entity("TatsYM.Data.Entity.HomeworkAssignments.Homework", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -164,10 +164,10 @@ namespace TatsYM.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("Homeworks");
+                    b.ToTable("Homeworks", (string)null);
                 });
 
-            modelBuilder.Entity("TatsYM.Data.Entity.HomeworkAssignments.SubjectEntity", b =>
+            modelBuilder.Entity("TatsYM.Data.Entity.HomeworkAssignments.Subject", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -182,7 +182,7 @@ namespace TatsYM.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Subjects");
+                    b.ToTable("Subjects", (string)null);
                 });
 
             modelBuilder.Entity("TatsYum.Models.Users.RoleEntity", b =>
@@ -364,9 +364,9 @@ namespace TatsYM.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TatsYM.Data.Entity.HomeworkAssignments.HomeworkEntity", b =>
+            modelBuilder.Entity("TatsYM.Data.Entity.HomeworkAssignments.Homework", b =>
                 {
-                    b.HasOne("TatsYM.Data.Entity.HomeworkAssignments.SubjectEntity", "Subject")
+                    b.HasOne("TatsYM.Data.Entity.HomeworkAssignments.Subject", "Subject")
                         .WithMany("Homeworks")
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -375,7 +375,7 @@ namespace TatsYM.Migrations
                     b.Navigation("Subject");
                 });
 
-            modelBuilder.Entity("TatsYM.Data.Entity.HomeworkAssignments.SubjectEntity", b =>
+            modelBuilder.Entity("TatsYM.Data.Entity.HomeworkAssignments.Subject", b =>
                 {
                     b.Navigation("Homeworks");
                 });

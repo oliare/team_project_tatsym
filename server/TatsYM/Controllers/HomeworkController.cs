@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TatsYM.Data.Entity.HomeworkAssignments;
 using TatsYM.DTOs.Homework;
-using TatsYM.Repositories.HomeworkAssignmets;
-using TatsYM.Services.HomeworkAssignments;
+using TatsYM.DTOs.HomeworkAssignments;
+using TatsYM.DTOs.Subject;
+using TatsYM.Interfaces.Homework;
+using TatsYM.Interfaces.Subject;
 
 namespace TatsYM.Controllers
 {
@@ -10,18 +11,18 @@ namespace TatsYM.Controllers
     public class HomeworkController : Controller
     {
         private readonly IHomeworkService _hwService;
-        private readonly IHomeworkRepository _hwRepository;
+        private readonly ISubjectService _sbService;
 
-        public HomeworkController(IHomeworkService hwService, IHomeworkRepository hwRepository)
+        public HomeworkController(IHomeworkService hwService, ISubjectService sbService)
         {
             _hwService = hwService;
-            _hwRepository = hwRepository;
+            _sbService = sbService;
         }
 
         [HttpGet("list")]
         public async Task<ActionResult<List<HomeworkDto>>> List()
         {
-            var list = await _hwService.List();
+            var list = await _hwService.GetAll();
             return Ok(list);
         }
 
@@ -32,7 +33,7 @@ namespace TatsYM.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> Create(HomeworkDto homeworkDto)
+        public async Task<IActionResult> Create(HomeworkCreateDto homeworkDto)
         {
             await _hwService.Create(homeworkDto);
             return Ok(homeworkDto);
@@ -50,14 +51,14 @@ namespace TatsYM.Controllers
         {
             var homework = await _hwService.GetById(id);
             if (homework == null) return NotFound();
-            await _hwRepository.Delete(id);
+            await _hwService.Delete(id);
             return Ok();
         }
 
         [HttpGet("subjects")]
-        public async Task<List<SubjectEntity>> GetSubjects()
+        public async Task<List<SubjectDto>> GetSubjects()
         {
-            var subjects = await _hwRepository.GetAllSubjects();
+            var subjects = await _sbService.GetAll();
             return subjects;
         }
 
