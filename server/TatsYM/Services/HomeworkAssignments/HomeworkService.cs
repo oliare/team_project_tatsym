@@ -27,17 +27,7 @@ namespace TatsYM.Services.HomeworkAssignments
         public async Task<HomeworkDto> GetById(int id)
         {
             var hw = await _hwRepository.GetById(id);
-            return new HomeworkDto
-            {
-                Id = hw.Id,
-                Title = hw.Title,
-                Description = hw.Description,
-                Logo = hw.Logo,
-                FilePath = hw.FilePath,
-                IssuedDate = hw.IssuedDate,
-                Deadline = hw.Deadline,
-                SubjectId = hw.SubjectId
-            };
+            return _mapper.Map<HomeworkDto>(hw);
         }
 
         public async Task<HomeworkDto> Create(HomeworkCreateDto item)
