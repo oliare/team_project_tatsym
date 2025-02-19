@@ -1,14 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './userMaterials.css';
-
-interface Material {
-  id: number;
-  title: string;
-  description: string;
-  date: string;
-  theme?: string;
-  imageUrl?: string;
-}
+import {Material} from "../../interfaces/interfaces"
 
 const UserMaterials: React.FC = () => {
   const [materials, setMaterials] = useState<Material[]>([]);
