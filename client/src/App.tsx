@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./pages/Layout.tsx";
-import Home from "./pages/home/HomePage.tsx";
-import LoginPage from "./pages/students/login/LoginPage.tsx";
-import UserMaterials from "./pages/userMaterials/UserMaterials.tsx";
+import Home from "./pages/student/home/HomePage.tsx";
+import LoginPage from "./pages/student/login/LoginPage.tsx";
+import UserMaterials from "./pages/student/userMaterials/UserMaterials.tsx";
 
 const App: React.FC = () => {
   return (
