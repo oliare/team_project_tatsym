@@ -23,6 +23,8 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="uploads\images\" />
+    <Folder Include="uploads\homework\" />
   </ItemGroup>
 
 </Project>
