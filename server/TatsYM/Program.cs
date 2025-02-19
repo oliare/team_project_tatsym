@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using TatsYM.Interfaces;
 using TatsYM.Interfaces.Homework;
 using TatsYM.Interfaces.Subject;
 using TatsYM.Repositories;
@@ -71,8 +72,9 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<DataSeeder>();
 
 // Repositories
-builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
-builder.Services.AddScoped<IHomeworkRepository, HomeworkRepository>();
+//builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
+//builder.Services.AddScoped<IHomeworkRepository, HomeworkRepository>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 // Services
 builder.Services.AddScoped<ISubjectService, SubjectService>();
