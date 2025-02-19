@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using TatsYM.Interfaces;
 using TatsYM.Interfaces.Homework;
 using TatsYM.Interfaces.Media;
 using TatsYM.Interfaces.Subject;
@@ -73,13 +74,16 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<DataSeeder>();
 
 // Repositories
-builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
-builder.Services.AddScoped<IHomeworkRepository, HomeworkRepository>();
+//builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
+//builder.Services.AddScoped<IHomeworkRepository, HomeworkRepository>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 // Services
 builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddScoped<IHomeworkService, HomeworkService>();
 builder.Services.AddScoped<IMediaService, MediaService>();
+
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 

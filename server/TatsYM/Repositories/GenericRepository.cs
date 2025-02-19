@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TatsYM.Interfaces;
 using TatsYum.Data;
 
 namespace TatsYM.Repositories
 {
-    public class GenericRepository<TEntity> where TEntity : class
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
         protected readonly ApplicationDbContext _context;
         protected readonly DbSet<TEntity> _dbSet;
