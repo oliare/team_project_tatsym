@@ -5,10 +5,12 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using TatsYM.Interfaces;
 using TatsYM.Interfaces.Homework;
+using TatsYM.Interfaces.Media;
 using TatsYM.Interfaces.Subject;
 using TatsYM.Repositories;
 using TatsYM.Services;
 using TatsYM.Services.HomeworkAssignments;
+using TatsYM.Services.Media;
 using TatsYM.Services.Subject;
 using TatsYum.Data;
 using TatsYum.Models.Users;
@@ -79,6 +81,7 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 // Services
 builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddScoped<IHomeworkService, HomeworkService>();
+builder.Services.AddScoped<IMediaService, MediaService>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 

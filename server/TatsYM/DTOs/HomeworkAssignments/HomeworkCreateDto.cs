@@ -1,6 +1,4 @@
-﻿using TatsYM.DTOs.Homework;
-
-namespace TatsYM.DTOs.HomeworkAssignments
+﻿namespace TatsYM.DTOs.HomeworkAssignments
 {
     public class HomeworkCreateDto : BaseHomeworkDto
     {

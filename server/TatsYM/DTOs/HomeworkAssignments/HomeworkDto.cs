@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TatsYM.DTOs.Homework
+namespace TatsYM.DTOs.HomeworkAssignments
 {
     public class BaseHomeworkDto
     {

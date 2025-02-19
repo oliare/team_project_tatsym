@@ -1,5 +1,4 @@
-﻿using TatsYM.DTOs.Homework;
-using TatsYM.DTOs.HomeworkAssignments;
+﻿using TatsYM.DTOs.HomeworkAssignments;
 
 namespace TatsYM.Interfaces.Homework
 {
