@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using TatsYM.Data.Entity.HomeworkAssignments;
-using TatsYM.DTOs.Homework;
 using TatsYM.DTOs.HomeworkAssignments;
 using TatsYM.DTOs.Subject;
 
