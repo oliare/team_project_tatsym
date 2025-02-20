@@ -13,9 +13,9 @@ const Layout = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Header onToggleCollapse={handleToggleCollapse} />
-      <div className="flex flex-1">
+      <div className="flex flex-1 overflow-hidden"> 
         <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
-        <main className="px-24">
+        <main className="flex-1 overflow-auto px-24"> 
           <Outlet />
         </main>
       </div>

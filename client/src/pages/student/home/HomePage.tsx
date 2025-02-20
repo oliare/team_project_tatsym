@@ -1,12 +1,8 @@
 import React from 'react';
 import style from './Home.module.css';
+import {RatingData, LeaderboardEntry} from "../../../interfaces/interfaces"
+import Calendar from "../../../components/calendar/Calendar"
 
-
-interface LeaderboardEntry {
-  name: string;
-  points: number;
-  imageUrl: string;
-}
 
 const leaderboardData: LeaderboardEntry[] = [
   { name: 'Єрошенко Текля', points: 3736, imageUrl: '' },
@@ -19,17 +15,6 @@ const leaderboardData: LeaderboardEntry[] = [
   { name: 'Ульяненко Устим', points: 2762, imageUrl: '' },
 ];
 
-interface RatingData {
-  groupRating: number;
-  streamRating: number;
-  individualWork: {
-    completed: number;
-    inProgress: number;
-  };
-  averageScore: number;
-  individualScore: number;
-  classWorkScore: number;
-}
 
 const ratingData: RatingData = {
   groupRating: 12,
@@ -45,10 +30,15 @@ const ratingData: RatingData = {
 
 const App: React.FC = () => {
   return (
+
+    <div>
+      <div>
+        <Calendar/>
+      </div>
+
+      <div className={`${style.container}`}>
+
     <div className={`${style.container}`}>
-      <header className={`${style.header}`}>
-        <h1>Огляд успішності студентів</h1>
-      </header>
       <div className={`${style.leaderboardSection}`}>
         <h2>Таблиця лідерів</h2>
         <ul className={`${style.leaderboard}`}>
@@ -70,14 +60,13 @@ const App: React.FC = () => {
             <span>{ratingData.averageScore}</span>
           </div>
           <div className={`${style.progressItem}`}>
-            <span>Індивідуальний прогрес:</span>
-            <div>
-              <span>Самостійна робота: {ratingData.individualScore}</span>
+              <span> Самостійна робота: {ratingData.individualScore}</span><br></br>
               <span>&nbsp;Робота в класі: {ratingData.classWorkScore}</span>
             </div>
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };
