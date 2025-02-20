@@ -32,7 +32,7 @@ const ScheduleCalendar: React.FC = () => {
     const isCurrentMonth = value.month() === currentDate.month();
 
     if (!isCurrentMonth) {
-      return <div className="empty-cell"></div>;
+      return <div className={style.emptyCell}></div>;
     }
 
     const isSelected = selectedDays.includes(value.day());
@@ -40,8 +40,8 @@ const ScheduleCalendar: React.FC = () => {
 
     return (
       <div
-        className={`calendar-day ${isSelected ? 'selected-day' : ''} ${
-          isToday ? 'today' : ''
+        className={`${style.calendarDay} ${isSelected ? style.selectedDay : ''} ${
+          isToday ? style.today : ''
         }`}
       >
         {value.date()}
@@ -53,12 +53,10 @@ const ScheduleCalendar: React.FC = () => {
   const handleNextMonth = () => setCurrentDate((prev) => prev.add(1, 'month'));
 
   return (
-    <div className={`${style.calendarContainer}`}>
-      <div className="flex justify-between items-center mb-2">
-        <span className="font-semibold flex-1 text-center">
-          {currentDate.format('MMMM YYYY')}
-        </span>
-        <div className="flex gap-2">
+    <div className={style.calendarContainer}>
+      <div className={style.header}>
+        <span className={style.monthLabel}>{currentDate.format('MMMM YYYY')}</span>
+        <div className={style.navigationButtons}>
           <Button icon={<LeftOutlined />} onClick={handlePrevMonth} />
           <Button icon={<RightOutlined />} onClick={handleNextMonth} />
         </div>
@@ -70,10 +68,10 @@ const ScheduleCalendar: React.FC = () => {
         onPanelChange={setCurrentDate}
         fullCellRender={fullCellRender}
         headerRender={() => null}
-        className={`${style.calendarContent}`}
+        className={style.calendarContent}
       />
 
-      <Button type="primary" onClick={showModal} className="mb-2 w-full">
+      <Button type="primary" onClick={showModal} className={style.selectButton}>
         Вибрати дні
       </Button>
 
