@@ -38,35 +38,40 @@ const App: React.FC = () => {
 
       <div className={`${style.container}`}>
 
-    <div className={`${style.container}`}>
-      <div className={`${style.leaderboardSection}`}>
-        <h2>Таблиця лідерів</h2>
-        <ul className={`${style.leaderboard}`}>
-          {leaderboardData.map((entry, index) => (
-            <li key={index} className={`${style.leaderboardEntry}`}>
-              <div className={`${style.leaderboardInfo}`}>
-                <span className={`${style.leaderboardName}`}>{entry.name}</span>
-                <span className={`${style.leaderboardPoints}`}>{entry.points} балів</span>
+        <header className={`${style.header}`}>
+          <h1>Огляд успішності студентів</h1>
+        </header>
+        <div className={`${style.leaderboardSection}`}>
+          <h2>Таблиця лідерів</h2>
+          <ul className={`${style.leaderboard}`}>
+            {leaderboardData.map((entry, index) => (
+              <li key={index} className={`${style.leaderboardEntry}`}>
+                <div className={`${style.leaderboardInfo}`}>
+                  <span className={`${style.leaderboardName}`}>{entry.name}</span>
+                  <span className={`${style.leaderboardPoints}`}>{entry.points} балів</span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className={`${style.progressSection}`}>
+          <h2>Загальний прогрес:</h2>
+          <div className={`${style.progress}`}>
+            <div className={`${style.progressItem}`}>
+              <span>Середній бал класу:</span>
+              <span>{ratingData.averageScore}</span>
+            </div>
+            <div className={`${style.progressItem}`}>
+              <span>Індивідуальний прогрес:</span>
+              <div>
+                <span>Самостійна робота: {ratingData.individualScore}</span>
+                <span>&nbsp;Робота в класі: {ratingData.classWorkScore}</span>
               </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className={`${style.progressSection}`}>
-        <h2>Загальний прогрес:</h2>
-        <div className={`${style.progress}`}>
-          <div className={`${style.progressItem}`}>
-            <span>Середній бал класу:</span>
-            <span>{ratingData.averageScore}</span>
-          </div>
-          <div className={`${style.progressItem}`}>
-              <span> Самостійна робота: {ratingData.individualScore}</span><br></br>
-              <span>&nbsp;Робота в класі: {ratingData.classWorkScore}</span>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    
     </div>
   );
 };
