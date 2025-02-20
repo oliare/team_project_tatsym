@@ -74,8 +74,6 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<DataSeeder>();
 
 // Repositories
-//builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
-//builder.Services.AddScoped<IHomeworkRepository, HomeworkRepository>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 // Services
