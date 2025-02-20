@@ -1,11 +1,9 @@
 using AutoMapper;
 using TatsYM.Data.Entity.HomeworkAssignments;
-using TatsYM.DTOs.Homework;
 using TatsYM.DTOs.HomeworkAssignments;
 using TatsYM.Interfaces;
 using TatsYM.Interfaces.Homework;
 using TatsYM.Interfaces.Media;
-using TatsYM.Repositories;
 
 namespace TatsYM.Services.HomeworkAssignments
 {
@@ -13,11 +11,13 @@ namespace TatsYM.Services.HomeworkAssignments
     {
         private readonly IGenericRepository<HomeworkEntity> _context;
         private readonly IMapper _mapper;
+        private readonly IMediaService _mediaService;
 
         public HomeworkService(IGenericRepository<HomeworkEntity> context, IMapper mapper, IMediaService mediaService)
         {
             _context = context;
             _mapper = mapper;
+            _mediaService = mediaService;
         }
 
         public async Task<List<HomeworkDto>> GetAll()
@@ -35,6 +35,9 @@ namespace TatsYM.Services.HomeworkAssignments
 
         public async Task<HomeworkDto> Create(HomeworkCreateDto item)
         {
+            string logoPath = _mediaService.SaveImage(item.Logo);
+            string filePath = _mediaService.SaveFile(item.FilePath);
+
             var hw = _mapper.Map<HomeworkEntity>(item);
             hw.Logo = logoPath;
             hw.FilePath = filePath;
