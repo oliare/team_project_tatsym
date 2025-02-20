@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import './userMaterials.css';
+import style from "./userMaterials.module.css"
 import {Material} from "../../../interfaces/interfaces"
 
 const UserMaterials: React.FC = () => {
@@ -78,8 +78,8 @@ const UserMaterials: React.FC = () => {
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
-    <div ref={containerRef} className="user-materials-container">
-      <div className="sort-container">
+    <div ref={containerRef} className={`${style.materialsContainer}`}>
+      <div className={`${style.sortContainer}`}>
         <label>Sort by: </label>
         <select value={sortBy} onChange={(e) => setSortBy(e.target.value as 'id' | 'title' | 'theme' | 'date')}>
           <option value="id">ID</option>
@@ -90,17 +90,17 @@ const UserMaterials: React.FC = () => {
         </select>
       </div>
 
-      <ul className="materials-list">
+      <ul className={`${style.materialsList}`}>
         {currentMaterials.map((material) => (
           <li key={material.id}>
-            <div className="material-image">
+            <div className={`${style.materialImage}`}>
               {material.imageUrl ? (
                 <img src={material.imageUrl} alt={material.title} width={100} height={100} style={{ borderRadius: '5px' }} />
               ) : (
                 'No Image'
               )}
             </div>
-            <div className="material-content">
+            <div className={`${style.materialContent}`}>
               <h2>{material.title}</h2>
               <p>{material.description}</p>
               <small>Date: {new Date(material.date).toLocaleDateString()}</small>
@@ -111,7 +111,7 @@ const UserMaterials: React.FC = () => {
         ))}
       </ul>
 
-      <div className="pagination">
+      <div className={`${style.pagination}`}>
         {Array.from({ length: Math.ceil(sortedMaterials.length / itemsPerPage) }, (_, i) => (
           <button
             key={i + 1}
