@@ -3,6 +3,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using TatsYM.Interfaces;
+using TatsYM.Interfaces.Homework;
+using TatsYM.Interfaces.Media;
+using TatsYM.Interfaces.Subject;
+using TatsYM.Repositories;
+using TatsYM.Services;
+using TatsYM.Services.HomeworkAssignments;
+using TatsYM.Services.Media;
+using TatsYM.Services.Subject;
 using TatsYum.Data;
 using TatsYum.Models.Users;
 using TatsYum.Services;
@@ -62,6 +71,19 @@ builder.Services.AddAuthentication()
 builder.Services.AddAuthorization();
 
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<DataSeeder>();
+
+// Repositories
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+// Services
+builder.Services.AddScoped<ISubjectService, SubjectService>();
+builder.Services.AddScoped<IHomeworkService, HomeworkService>();
+builder.Services.AddScoped<IMediaService, MediaService>();
+
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -79,6 +101,16 @@ if (app.Environment.IsDevelopment())
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "TatsYum API v1");
     });
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    //dbContext.Database.EnsureDeleted();
+    context.Database.Migrate();
+    var seeder = scope.ServiceProvider.GetRequiredService<DataSeeder>();
+
+    await seeder.SeedSubjects();
 }
 
 app.UseAuthentication();
