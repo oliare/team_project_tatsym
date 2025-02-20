@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Calendar, Button, Modal, Space } from 'antd';
 import dayjs, { Dayjs } from 'dayjs';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
-import './Calendar.css'; 
+import style from "./Calendar.module.css"; 
 
 const daysOfWeek = [
   { label: 'Понеділок', value: 1 },
@@ -53,7 +53,7 @@ const ScheduleCalendar: React.FC = () => {
   const handleNextMonth = () => setCurrentDate((prev) => prev.add(1, 'month'));
 
   return (
-    <div className="custom-calendar-container p-4 bg-grey rounded-lg shadow-lg">
+    <div className={`${style.calendarContainer}`}>
       <div className="flex justify-between items-center mb-2">
         <span className="font-semibold flex-1 text-center">
           {currentDate.format('MMMM YYYY')}
@@ -70,7 +70,7 @@ const ScheduleCalendar: React.FC = () => {
         onPanelChange={setCurrentDate}
         fullCellRender={fullCellRender}
         headerRender={() => null}
-        className="calendar-content"
+        className={`${style.calendarContent}`}
       />
 
       <Button type="primary" onClick={showModal} className="mb-2 w-full">

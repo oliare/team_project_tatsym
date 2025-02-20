@@ -1,4 +1,4 @@
-.user-materials-container {
+.materialsContainer {
     width: 100%;
     min-height: 100%; 
     padding: 20px;
@@ -7,13 +7,13 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 
-  .user-materials-container h1 {
+  .materialsContainer h1 {
     text-align: center;
     color: #333;
     margin-bottom: 20px;
   }
   
-  .sort-container {
+  .sortContainer {
     margin-bottom: 20px;
     display: flex;
     gap: 10px;
@@ -21,19 +21,19 @@
     justify-content: left;
   }
   
-  .sort-container label {
+  .sortContainer label {
     font-weight: bold;
     margin-right: 10px;
   }
   
-  .sort-container select {
+  .sortContainer select {
     padding: 5px;
     font-size: 16px;
     border-radius: 5px;
     border: 1px solid #ccc;
   }
   
-  .materials-list {
+  .materialsList {
     list-style-type: none;
     padding: 0;
     display: grid;
@@ -44,7 +44,7 @@
   }
   
   
-  .materials-list li {
+  .materialsList li {
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -56,11 +56,11 @@
     text-align: center;
   }
   
-  .materials-list li:hover {
+  .materialsList li:hover {
     background-color: #f1f1f1;
   }
   
-  .material-image {
+  .materialImage {
     width: 100px;
     height: 100px;
     background-color: #e0e0e0; 
@@ -73,21 +73,21 @@
     margin-bottom: 10px;
   }
   
-  .material-content {
+  .materialContent {
     flex: 1;
   }
   
-  .materials-list h2 {
+  .materialsList h2 {
     margin: 0 0 10px;
     color: #007bff;
   }
   
-  .materials-list p {
+  .materialsList p {
     margin: 0 0 10px;
     color: #555;
   }
   
-  .materials-list small {
+  .materialsList small {
     display: block;
     color: #888;
     font-size: 0.9em;
