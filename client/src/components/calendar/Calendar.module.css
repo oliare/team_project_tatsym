@@ -1,5 +1,5 @@
 
-.custom-calendar-container {
+.calendarContainer {
     position: fixed; 
     top: 0;
     right: 0;
@@ -48,7 +48,7 @@
   }
   
 
-  .calendar-content {
+  .calendarContent {
     max-width: 100%; 
     max-height: 60vh; 
   }
