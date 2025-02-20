@@ -4,7 +4,6 @@ import {RatingData, LeaderboardEntry} from "../../../interfaces/interfaces"
 import Calendar from "../../../components/calendar/Calendar"
 
 
-
 const leaderboardData: LeaderboardEntry[] = [
   { name: 'Єрошенко Текля', points: 3736, imageUrl: '' },
   { name: 'Житецький Домослав', points: 3668, imageUrl: '' },
@@ -31,12 +30,15 @@ const ratingData: RatingData = {
 
 const App: React.FC = () => {
   return (
+
     <div>
       <div>
         <Calendar/>
       </div>
 
       <div className={`${style.container}`}>
+
+    <div className={`${style.container}`}>
       <div className={`${style.leaderboardSection}`}>
         <h2>Таблиця лідерів</h2>
         <ul className={`${style.leaderboard}`}>
@@ -58,7 +60,6 @@ const App: React.FC = () => {
             <span>{ratingData.averageScore}</span>
           </div>
           <div className={`${style.progressItem}`}>
-            <div>
               <span> Самостійна робота: {ratingData.individualScore}</span><br></br>
               <span>&nbsp;Робота в класі: {ratingData.classWorkScore}</span>
             </div>
