@@ -1,8 +1,6 @@
 import React from 'react';
-import style from './Home.module.css';
-import {RatingData, LeaderboardEntry} from "../../../interfaces/interfaces"
-import Calendar from "../../../components/calendar/Calendar"
-
+import Calendar from "../../../components/calendar/Calendar";
+import { RatingData, LeaderboardEntry } from "../../../interfaces/interfaces";
 
 const leaderboardData: LeaderboardEntry[] = [
   { name: 'Єрошенко Текля', points: 3736, imageUrl: '' },
@@ -14,7 +12,6 @@ const leaderboardData: LeaderboardEntry[] = [
   { name: 'Зеленецький Щастибог', points: 2966, imageUrl: '' },
   { name: 'Ульяненко Устим', points: 2762, imageUrl: '' },
 ];
-
 
 const ratingData: RatingData = {
   groupRating: 12,
@@ -30,50 +27,49 @@ const ratingData: RatingData = {
 
 const App: React.FC = () => {
   return (
-
-    <div>
+    <div className="min-h-screen bg-gray-100 p-6">
       <div>
-        <Calendar/>
+        <Calendar />
       </div>
 
-      <div className={`${style.container}`}>
-
-        <header className={`${style.header}`}>
-          <h1>Огляд успішності студентів</h1>
+      <div className="bg-white shadow-md rounded-lg p-6 mt-6 w-96">
+        <header className="mb-4">
+          <h1 className="text-2xl font-bold text-gray-800">Огляд успішності студентів</h1>
         </header>
-        <div className={`${style.leaderboardSection}`}>
-          <h2>Таблиця лідерів</h2>
-          <ul className={`${style.leaderboard}`}>
+
+        <div className="mb-6">
+          <h2 className="text-xl font-semibold text-gray-700">Таблиця лідерів</h2>
+          <ul className="mt-2">
             {leaderboardData.map((entry, index) => (
-              <li key={index} className={`${style.leaderboardEntry}`}>
-                <div className={`${style.leaderboardInfo}`}>
-                  <span className={`${style.leaderboardName}`}>{entry.name}</span>
-                  <span className={`${style.leaderboardPoints}`}>{entry.points} балів</span>
+              <li key={index} className="flex justify-between items-center border-b py-2">
+                <div className="flex items-center">
+                  <span className="text-gray-800 font-medium">{entry.name}</span>
                 </div>
+                <span className="text-gray-600">{entry.points} балів</span>
               </li>
             ))}
           </ul>
         </div>
-        <div className={`${style.progressSection}`}>
-          <h2>Загальний прогрес:</h2>
-          <div className={`${style.progress}`}>
-            <div className={`${style.progressItem}`}>
-              <span>Середній бал класу:</span>
-              <span>{ratingData.averageScore}</span>
+
+        <div>
+          <h2 className="text-xl font-semibold text-gray-700">Загальний прогрес:</h2>
+          <div className="mt-2">
+            <div className="flex justify-between py-2">
+              <span className="text-gray-600">Середній бал класу:</span>
+              <span className="text-gray-800 font-medium">{ratingData.averageScore}</span>
             </div>
-            <div className={`${style.progressItem}`}>
-              <span>Індивідуальний прогрес:</span>
-              <div>
-                <span>Самостійна робота: {ratingData.individualScore}</span>
-                <span>&nbsp;Робота в класі: {ratingData.classWorkScore}</span>
+            <div className="flex flex-col">
+              <span className="text-gray-600">Індивідуальний прогрес:</span>
+              <div className="flex justify-between py-1">
+                <span className="text-gray-800">{`Самостійна робота: ${ratingData.individualScore}`}</span>
+                <span className="text-gray-800">{`Робота в класі: ${ratingData.classWorkScore}`}</span>
               </div>
             </div>
           </div>
         </div>
       </div>
-    
     </div>
   );
 };
 
-export default App; 
+export default App;
