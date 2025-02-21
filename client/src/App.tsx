@@ -4,7 +4,7 @@ import Layout from "./pages/Layout.tsx";
 import Home from "./pages/student/home/HomePage.tsx";
 import LoginPage from "./pages/student/login/LoginPage.tsx";
 import UserMaterials from "./pages/student/userMaterials/UserMaterials.tsx";
-
+import HomeAssigments from "./pages/student/Assigments/HomeAssigments.tsx"; 
 
 const App: React.FC = () => {
   return (
@@ -13,6 +13,7 @@ const App: React.FC = () => {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="/userMaterials" element={<UserMaterials />} />
+          <Route path="/homeAssigments" element={<HomeAssigments />} />
         </Route>
         <Route path="/login" element={<LoginPage />} />
       </Routes>
