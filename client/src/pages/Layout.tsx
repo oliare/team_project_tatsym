@@ -15,7 +15,7 @@ const Layout = () => {
       <Header onToggleCollapse={handleToggleCollapse} />
       <div className="flex flex-1 overflow-hidden"> 
         <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
-        <main className="flex-1 overflow-auto px-24"> 
+        <main className="flex-1 overflow-auto ml-20"> 
           <Outlet />
         </main>
       </div>
