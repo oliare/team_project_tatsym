@@ -4,7 +4,8 @@ import Layout from "./pages/Layout.tsx";
 import Home from "./pages/student/home/HomePage.tsx";
 import LoginPage from "./pages/student/login/LoginPage.tsx";
 import UserMaterials from "./pages/student/userMaterials/UserMaterials.tsx";
-import HomeAssigments from "./pages/student/Assigments/HomeAssigments.tsx"; 
+import HomeAssigments from "./pages/student/Assigments/HomeAssigments.tsx";
+import NotFoundPage from "./common/NotFoundPage.tsx";
 
 const App: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ const App: React.FC = () => {
           <Route index element={<Home />} />
           <Route path="/userMaterials" element={<UserMaterials />} />
           <Route path="/homeAssigments" element={<HomeAssigments />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
         <Route path="/login" element={<LoginPage />} />
       </Routes>
