@@ -12,9 +12,9 @@ namespace TatsYum.Controllers
     [Authorize]
     public class UserController : ControllerBase
     {
-        private readonly ProfileService _profileService;
+        private readonly UserService _profileService;
 
-        public UserController(ProfileService profileService)
+        public UserController(UserService profileService)
         {
             _profileService = profileService;
         }
@@ -49,11 +49,9 @@ namespace TatsYum.Controllers
             if (userId == null)
                 return Unauthorized();
 
-            var isDeleted = await _profileService.DeleteProfileAsync(userId, password);
-            if (!isDeleted)
-                return BadRequest("Incorrect password.");
-
-            return NoContent();
+            return await _profileService.DeleteProfileAsync(userId, password)
+                ? NoContent()
+                : BadRequest("Incorrect password or could not delete profile.");
         }
     }
 }

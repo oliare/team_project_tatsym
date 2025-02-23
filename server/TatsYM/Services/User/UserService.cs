@@ -6,12 +6,12 @@ using TatsYum.Models.Users;
 
 namespace TatsYM.Services.User
 {
-    public class ProfileService
+    public class UserService
     {
         private readonly UserManager<UserEntity> _userManager;
         private readonly IGenericRepository<UserEntity> _genericRepository;
 
-        public ProfileService(UserManager<UserEntity> userManager, IGenericRepository<UserEntity> genericRepository)
+        public UserService(UserManager<UserEntity> userManager, IGenericRepository<UserEntity> genericRepository)
         {
             _userManager = userManager;
             _genericRepository = genericRepository;

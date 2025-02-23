@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TatsYum.Models.Users
+namespace TatsYM.DTOs.Autorise
 {
     public class LoginModel
     {

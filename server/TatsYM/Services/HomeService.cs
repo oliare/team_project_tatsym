@@ -9,11 +9,11 @@ public interface HomeService
     Task<List<UserEntity>> GetUsersByRoleAsync(string roleName);
 }
 
-public class UserService : HomeService
+public class StudentsService : HomeService
 {
     private readonly UserManager<UserEntity> _userManager;
 
-    public UserService(UserManager<UserEntity> userManager)
+    public StudentsService(UserManager<UserEntity> userManager)
     {
         _userManager = userManager;
     }

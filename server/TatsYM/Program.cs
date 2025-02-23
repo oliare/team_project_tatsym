@@ -21,9 +21,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddScoped<ProfileService>();
+//builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<UserService>();
 
-builder.Services.AddScoped<HomeService, UserService>();
+builder.Services.AddScoped<HomeService, StudentsService>();
 
 
 builder.Services.AddSwaggerGen(c =>

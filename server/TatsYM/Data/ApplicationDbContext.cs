@@ -9,8 +9,8 @@ namespace TatsYum.Data
     public class ApplicationDbContext : IdentityDbContext<UserEntity, RoleEntity, string>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
-        public DbSet<SubjectEntity> Subjects { get; set; }
-        public DbSet<HomeworkEntity> Homeworks { get; set; }
+        public required DbSet<SubjectEntity> Subjects { get; set; }
+        public required DbSet<HomeworkEntity> Homeworks { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

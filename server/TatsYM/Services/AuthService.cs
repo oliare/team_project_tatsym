@@ -8,7 +8,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using TatsYum.Models.Users;
-using TatsYum.Models.Authentication;
+using TatsYM.DTOs.Autorise;
 
 namespace TatsYum.Services
 {
@@ -25,7 +25,7 @@ namespace TatsYum.Services
             _config = config;
         }
 
-        public async Task<AuthResult> RegisterAsync(UserRegisterModel model)
+        public async Task<AuthResult> RegisterAsync(UserRegisterDto model)
         {
             var user = new UserEntity
             {
@@ -102,7 +102,7 @@ namespace TatsYum.Services
             {
                 Subject = new ClaimsIdentity(new[] {
                     new Claim(ClaimTypes.NameIdentifier, user.Id),
-                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.Email, user.Email ?? string.Empty),
                     new Claim(ClaimTypes.GivenName, user.FirstName),
                     new Claim(ClaimTypes.Surname, user.LastName),
                 }.Concat(roles.Select(role => new Claim(ClaimTypes.Role, role)))),
