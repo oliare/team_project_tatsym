@@ -14,6 +14,7 @@ export interface RatingData {
     individualWork: {
       completed: number;
       inProgress: number;
+      overdue: number;
     };
     averageScore: number;
     individualScore: number;
