@@ -11,11 +11,11 @@ const Layout = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col h-screen">
       <Header onToggleCollapse={handleToggleCollapse} />
       <div className="flex flex-1 overflow-hidden"> 
         <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
-        <main className="flex-1 overflow-auto ml-20"> 
+        <main className="flex-1 overflow-auto ml-20 "> 
           <Outlet />
         </main>
       </div>
