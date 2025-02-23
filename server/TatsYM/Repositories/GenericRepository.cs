@@ -20,11 +20,11 @@ namespace TatsYM.Repositories
             return await _dbSet.ToListAsync();
         }
 
-        public async Task<TEntity> GetById(int id)
+        public async Task<TEntity> GetById(object id)
         {
             var entity = await _dbSet.FindAsync(id);
             if (entity != null) return entity;
-            throw new KeyNotFoundException($"{typeof(TEntity).Name} not found");
+            throw new KeyNotFoundException($"{typeof(TEntity).Name} not found with ID: {id}");
         }
 
         public async Task<TEntity> Create(TEntity entity)
@@ -41,13 +41,17 @@ namespace TatsYM.Repositories
             return entity;
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(object id)
         {
             var entity = await _dbSet.FindAsync(id);
             if (entity != null)
             {
                 _dbSet.Remove(entity);
                 await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new KeyNotFoundException($"{typeof(TEntity).Name} not found with ID: {id}");
             }
         }
     }

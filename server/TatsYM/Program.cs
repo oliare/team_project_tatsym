@@ -12,6 +12,7 @@ using TatsYM.Services;
 using TatsYM.Services.HomeworkAssignments;
 using TatsYM.Services.Media;
 using TatsYM.Services.Subject;
+using TatsYM.Services.User;
 using TatsYum.Data;
 using TatsYum.Models.Users;
 using TatsYum.Services;
@@ -20,9 +21,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+builder.Services.AddScoped<ProfileService>();
+
+builder.Services.AddScoped<HomeService, UserService>();
+
+
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "TatsYum API", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "TatsYM API", Version = "v1" });
 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {

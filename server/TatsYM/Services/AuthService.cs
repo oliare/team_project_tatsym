@@ -47,7 +47,7 @@ namespace TatsYum.Services
                     ErrorMessage = string.Join(", ", result.Errors.Select(e => e.Description))
                 };
             }
-            await _userManager.AddToRoleAsync(user, model.Role);
+            await _userManager.AddToRoleAsync(user, model.Role.ToString());
 
             return new AuthResult
             {
@@ -94,16 +94,21 @@ namespace TatsYum.Services
             var roles = await _userManager.GetRolesAsync(user);
 
             var tokenHandler = new JwtSecurityTokenHandler();
+
+            var issuer = jwtSettings["Issuer"];
+            var audience = jwtSettings["Audience"];
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[]
-                {
+                Subject = new ClaimsIdentity(new[] {
                     new Claim(ClaimTypes.NameIdentifier, user.Id),
                     new Claim(ClaimTypes.Email, user.Email),
                     new Claim(ClaimTypes.GivenName, user.FirstName),
                     new Claim(ClaimTypes.Surname, user.LastName),
                 }.Concat(roles.Select(role => new Claim(ClaimTypes.Role, role)))),
                 Expires = DateTime.UtcNow.AddMinutes(tokenLifetimeMinutes),
+                Issuer = issuer,
+                Audience = audience,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 

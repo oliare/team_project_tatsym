@@ -23,7 +23,6 @@ namespace TatsYum.Models.Users
         [DataType(DataType.Date)]
         public DateTime DateOfBirth { get; set; }
 
-        public bool IsActive { get; set; } = true;
 
     }
 }
