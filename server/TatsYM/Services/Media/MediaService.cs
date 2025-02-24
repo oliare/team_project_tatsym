@@ -41,7 +41,7 @@ namespace TatsYM.Services.Media
 
         private string SaveFileOrImage(string file, string dir)
         {
-            var path = Path.Combine(dir, Path.GetFileName(file));
+            var path = Path.Combine(dir, Guid.NewGuid() + Path.GetExtension(file));
 
             try
             {
@@ -50,7 +50,8 @@ namespace TatsYM.Services.Media
                 {
                     source.CopyTo(dest);
                 }
-                return path;
+                var relativePath = Path.GetRelativePath(Directory.GetCurrentDirectory(), path);
+                return relativePath.Replace("\\", "/");
             }
             catch (Exception ex)
             {

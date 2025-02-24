@@ -1,79 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Select } from 'antd';
 import { SearchProps } from 'antd/es/input';
 import { Input } from 'antd';
+import { getAllHomeworks } from '../../../api/homeworks/homeworksApi';
+import { IHomeworkDto } from '../../../interfaces/homeworks';
+import { API_URL_IMAGES } from "../../../api/api";
 
 const { Search } = Input;
+const imageHolder = './images/elementor-placeholder-image.jpg'
 
-const homeAssignments: React.FC = () => {
+const HomeAssignments: React.FC = () => {
 
   const onSearch: SearchProps['onSearch'] = (value, _e, info) => console.log(info?.source, value);
 
-  const imageHolder = './images/elementor-placeholder-image.jpg'
+  const [homeworks, setHomeworks] = useState<IHomeworkDto[]>([]);
 
-  const data = [
-    {
-      title: "Sprint Planning",
-      dateVisible: "19.02.2025",
-      deadline: "21.02.2025 1 день",
-      image: imageHolder,
-    },
-    {
-      title: "Ganache",
-      dateVisible: "14.02.2025",
-      deadline: "21.02.2025 1 день",
-      image: imageHolder,
-    },
-    {
-      title: "Truffle",
-      dateVisible: "12.02.2025",
-      deadline: "21.02.2025 1 день",
-      image: imageHolder,
-    },
-    {
-      title: "Git Branching",
-      dateVisible: "10.02.2025",
-      deadline: "21.02.2025 1 день",
-      image: imageHolder,
-    },
-    {
-      title: "User Stories",
-      dateVisible: "07.02.2025",
-      deadline: "21.02.2025 1 день",
-      image: imageHolder,
-    },
-    {
-      title: "Sprint Planning",
-      dateVisible: "05.02.2025",
-      deadline: "21.02.2025 1 день",
-      image: imageHolder,
-    },
-    {
-      title: "Solidity",
-      dateVisible: "03.02.2025",
-      deadline: "21.02.2025 1 день",
-      image: imageHolder,
-    },
-    {
-      title: "Smart Contracts",
-      dateVisible: "31.01.2025",
-      deadline: "21.02.2025 1 день",
-      image: imageHolder,
-    },
-    {
-      title: "Start Sprint",
-      dateVisible: "29.01.2025",
-      deadline: "21.02.2025 1 день",
-      image: imageHolder,
-    },
-    {
-      title: "Team Project Start",
-      dateVisible: "27.01.2025",
-      deadline: "21.02.2025 1 день",
-      image: imageHolder,
-    },
+  useEffect(() => {
+    const fetchHomeworks = async () => {
+      const data = await getAllHomeworks();
+      if (data) { setHomeworks(data); }
+    };
 
-  ];
+    fetchHomeworks();
+  }, []);  
 
   return (
     <div className="p-6">
@@ -109,19 +58,19 @@ const homeAssignments: React.FC = () => {
 
 
       <div className="grid grid-cols-5 gap-6">
-        {data.map((item, index) => (
+        {homeworks.map((item, index) => (
           <div
             key={index}
             className="border rounded-md p-4 bg-white shadow-md hover:shadow-lg transition-transform transform hover:scale-105"
           >
             <img
-              src={item.image}
+              src={`${API_URL_IMAGES}/${item.logo}` || imageHolder}
               alt={item.title}
               className="rounded-md w-full h-40 object-cover mb-4"
             />
             <h2 className="text-lg font-semibold">{item.title}</h2>
-            <p className="text-gray-600">Видано: {item.dateVisible}</p>
-            <p className="text-gray-600">Дедлайн: {item.deadline}</p>
+            <p className="text-gray-600">Видано: {new Date(item.issuedDate).toLocaleDateString()}</p>
+            <p className="text-gray-600">Дедлайн: {new Date(item.deadline).toLocaleDateString()}</p>
           </div>
         ))}
       </div>
@@ -129,4 +78,4 @@ const homeAssignments: React.FC = () => {
   );
 };
 
-export default homeAssignments;
+export default HomeAssignments;
