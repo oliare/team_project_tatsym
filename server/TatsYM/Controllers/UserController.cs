@@ -1,57 +1,58 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using TatsYM.Services.User;
-using TatsYum.Models.Users;
+using TatsYM.Data.Entity.Users;
+using TatsYM.DTOs.User;
 
 namespace TatsYum.Controllers
 {
-    [Route("api/profile")]
+    [Route("api/user")]
     [ApiController]
     [Authorize]
     public class UserController : ControllerBase
     {
-        private readonly UserService _profileService;
+        private readonly UserService _userService;
 
-        public UserController(UserService profileService)
+        public UserController(UserService userService)
         {
-            _profileService = profileService;
+            _userService = userService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProfile()
+        public async Task<IActionResult> GetUser()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null)
                 return Unauthorized();
 
-            var user = await _profileService.GetProfileByIdAsync(userId);
+            var user = await _userService.GetUserByIdAsync(userId);
             return user != null ? Ok(user) : NotFound("User not found");
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateProfile([FromBody] UserEntity updatedUser)
+        public async Task<IActionResult> UpdateUser([FromBody] UserUpdateDto updatedUserDto)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null)
                 return Unauthorized();
 
-            return await _profileService.UpdateProfileAsync(userId, updatedUser)
+            return await _userService.UpdateUserAsync(userId, updatedUserDto)
                 ? NoContent()
-                : BadRequest("Could not update profile.");
+                : BadRequest("Could not update user.");
         }
 
+
         [HttpDelete]
-        public async Task<IActionResult> DeleteProfile([FromBody] string password)
+        public async Task<IActionResult> DeleteUser([FromBody] string password)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null)
                 return Unauthorized();
 
-            return await _profileService.DeleteProfileAsync(userId, password)
+            return await _userService.DeleteUserAsync(userId, password)
                 ? NoContent()
-                : BadRequest("Incorrect password or could not delete profile.");
+                : BadRequest("Incorrect password or could not delete user.");
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TatsYum.Models.Users;
+using TatsYM.Data.Entity.Users;
 
 public interface HomeService
 {

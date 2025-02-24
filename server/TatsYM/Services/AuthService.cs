@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using TatsYum.Models.Users;
+using TatsYM.Data.Entity.Users;
 using TatsYM.DTOs.Autorise;
 
 namespace TatsYum.Services
@@ -17,25 +18,19 @@ namespace TatsYum.Services
         private readonly UserManager<UserEntity> _userManager;
         private readonly SignInManager<UserEntity> _signInManager;
         private readonly IConfiguration _config;
+        private readonly IMapper _mapper;
 
-        public AuthService(UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager, IConfiguration config)
+        public AuthService(UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager, IConfiguration config, IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _config = config;
+            _mapper = mapper;
         }
 
         public async Task<AuthResult> RegisterAsync(UserRegisterDto model)
         {
-            var user = new UserEntity
-            {
-                UserName = model.Email,
-                Email = model.Email,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                Avatar = model.Avatar,
-                DateOfBirth = model.DateOfBirth
-            };
+            var user = _mapper.Map<UserEntity>(model); // Мапінг DTO в Entity
 
             var result = await _userManager.CreateAsync(user, model.Password);
 
@@ -47,6 +42,7 @@ namespace TatsYum.Services
                     ErrorMessage = string.Join(", ", result.Errors.Select(e => e.Description))
                 };
             }
+
             await _userManager.AddToRoleAsync(user, model.Role.ToString());
 
             return new AuthResult
@@ -106,6 +102,7 @@ namespace TatsYum.Services
                     new Claim(ClaimTypes.GivenName, user.FirstName),
                     new Claim(ClaimTypes.Surname, user.LastName),
                 }.Concat(roles.Select(role => new Claim(ClaimTypes.Role, role)))),
+
                 Expires = DateTime.UtcNow.AddMinutes(tokenLifetimeMinutes),
                 Issuer = issuer,
                 Audience = audience,

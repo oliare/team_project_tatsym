@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TatsYM.Data.Entity.HomeworkAssignments;
-using TatsYum.Models.Users;
+using TatsYM.Data.Entity.Users;
 
 namespace TatsYum.Data
 {

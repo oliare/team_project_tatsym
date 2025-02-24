@@ -14,7 +14,7 @@ using TatsYM.Services.Media;
 using TatsYM.Services.Subject;
 using TatsYM.Services.User;
 using TatsYum.Data;
-using TatsYum.Models.Users;
+using TatsYM.Data.Entity.Users;
 using TatsYum.Services;
 
 var builder = WebApplication.CreateBuilder(args);

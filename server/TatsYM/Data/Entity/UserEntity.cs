@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace TatsYum.Models.Users
+namespace TatsYM.Data.Entity.Users
 {
     public class UserEntity : IdentityUser
     {
@@ -17,8 +17,6 @@ namespace TatsYum.Models.Users
 
         [Url]
         public string? Avatar { get; set; }
-
-        public DateTimeOffset DateCreated { get; private set; } = DateTimeOffset.UtcNow;
 
         [DataType(DataType.Date)]
         public DateTime DateOfBirth { get; set; }
