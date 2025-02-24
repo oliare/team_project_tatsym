@@ -1,5 +1,10 @@
 # React + TypeScript + Vite
 
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=oliare_team_project_tatsym&metric=bugs)](https://sonarcloud.io/summary/new_code?id=oliare_team_project_tatsym)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=oliare_team_project_tatsym&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=oliare_team_project_tatsym)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=oliare_team_project_tatsym&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=oliare_team_project_tatsym)
+
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
