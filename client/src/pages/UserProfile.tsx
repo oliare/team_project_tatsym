@@ -1,15 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserProfileProps} from "../interfaces/interfaces.tsx";
+import { UserProfileProps } from "../interfaces/interfaces.tsx";
 
-
-const UserProfile: React.FC<UserProfileProps> = ({
-  name,
-  surname,
-  phone,
-  email,
-  avatarUrl,
-}) => {
+const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
   const navigate = useNavigate();
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -29,11 +22,11 @@ const UserProfile: React.FC<UserProfileProps> = ({
       <h2 className="text-2xl font-semibold mb-4">Персональні дані</h2>
       <div className="relative">
         <img
-          src={avatarUrl}
+          src={user.avatarUrl}
           alt="User Avatar"
           className="w-24 h-24 rounded-full border-4 border-gray-300"
         />
-        <button className="absolute bottom-0 right-0 bg-white p-1 rounded-full shadow-md ">
+        <button className="absolute bottom-0 right-0 bg-white p-1 rounded-full shadow-md">
           📷
         </button>
       </div>
@@ -43,25 +36,25 @@ const UserProfile: React.FC<UserProfileProps> = ({
           <input
             className="border rounded-md p-2 w-full disabled"
             type="text"
-            value={name}
+            value={user.name}
             disabled
           />
           <input
             className="border rounded-md p-2 w-full disabled"
             type="text"
-            value={surname}
+            value={user.surname}
             disabled
           />
           <input
             className="border rounded-md p-2 w-full disabled"
             type="text"
-            value={phone}
+            value={user.phone}
             disabled
           />
           <input
             className="border rounded-md p-2 w-full disabled"
             type="email"
-            value={email}
+            value={user.email}
             disabled
           />
         </div>

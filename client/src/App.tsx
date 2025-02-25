@@ -27,15 +27,7 @@ const App: React.FC = () => {
           <Route index element={<Home />} />
           <Route path="/userMaterials" element={<UserMaterials />} />
           <Route path="/homeAssignments" element={<HomeAssignments />} />
-          <Route 
-            path="/userProfile" 
-            element={<UserProfile 
-            name={user.name} 
-            surname={user.surname} 
-            phone={user.phone} 
-            email={user.email} 
-            avatarUrl={user.avatarUrl} 
-            />} />
+          <Route path="/userProfile" element={<UserProfile user={user} />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
         <Route path="/login" element={<LoginPage />} />

@@ -28,13 +28,16 @@ export interface LeaderboardEntry {
     imageUrl: string;
   } 
 
-export interface UserProfileProps {
-  name: string;
-  surname: string;
-  phone: string;
-  email: string;
-  avatarUrl?: string;
+  export interface UserProfileProps {
+    user: {
+      name: string;
+      surname: string;
+      phone: string;
+      email: string;
+      avatarUrl?: string;
+    };
   }
+  
 
 export interface Assignment {
   title: string;
