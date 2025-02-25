@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Select } from 'antd';
 import { SearchProps } from 'antd/es/input';
-import { Input } from 'antd';
+import { Input, Modal, Button } from 'antd';
 import { getAllHomeworks } from '../../../api/homeworks/homeworksApi';
 import { IHomeworkDto } from '../../../interfaces/homeworks';
 import { API_URL_IMAGES } from "../../../api/api";
+import { Assignment } from "../../../interfaces/interfaces";
 
 const { Search } = Input;
 const imageHolder = './images/elementor-placeholder-image.jpg'
@@ -14,30 +15,35 @@ const HomeAssignments: React.FC = () => {
   const onSearch: SearchProps['onSearch'] = (value, _e, info) => console.log(info?.source, value);
 
   const [homeworks, setHomeworks] = useState<IHomeworkDto[]>([]);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedAssignment, setSelectedAssignment] = useState<Assignment | null>(null);
+  const [inputValue, setInputValue] = useState('');
+  
   useEffect(() => {
     const fetchHomeworks = async () => {
       const data = await getAllHomeworks();
       if (data) { setHomeworks(data); }
     };
-
     fetchHomeworks();
   }, []);  
+
+  const showModal = (assignment: Assignment) => {
+    setSelectedAssignment(assignment);
+    setIsModalOpen(true);
+  };
+
+  const handleSend = () => {
+    console.log("Input Value:", inputValue);
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="p-6">
       <div className="flex mb-4">
-        <button className="border rounded-md p-2 hover:bg-custom-blue mr-2">
-          До виконання
-        </button>
-        <button className="border rounded-md p-2 hover:bg-custom-blue mr-2">
-          На перевірці
-        </button>
-        <button className="border rounded-md p-2 hover:bg-custom-blue">
-          Виконані
-        </button>
+        <button className="border rounded-md p-2 hover:bg-custom-blue mr-2">До виконання</button>
+        <button className="border rounded-md p-2 hover:bg-custom-blue mr-2">На перевірці</button>
+        <button className="border rounded-md p-2 hover:bg-custom-blue">Виконані</button>
       </div>
-
 
       <div className="flex mb-4">
         <Search placeholder="Пошук" className='w-80' onSearch={onSearch} />
@@ -46,7 +52,7 @@ const HomeAssignments: React.FC = () => {
           placeholder="Предмет"
           className='ml-3'
           filterOption={(input, option) =>
-            (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+            (option?.label as string)?.toLowerCase().includes(input.toLowerCase())
           }
           options={[
             { value: '1', label: 'Fintech' },
@@ -56,12 +62,12 @@ const HomeAssignments: React.FC = () => {
         />
       </div>
 
-
       <div className="grid grid-cols-5 gap-6">
         {homeworks.map((item, index) => (
           <div
             key={index}
-            className="border rounded-md p-4 bg-white shadow-md hover:shadow-lg transition-transform transform hover:scale-105"
+            className="border rounded-md p-4 bg-white shadow-md hover:shadow-lg transition-transform transform hover:scale-105 cursor-pointer"
+            onClick={() => showModal(item)}
           >
             <img
               src={`${API_URL_IMAGES}/${item.logo}` || imageHolder}
@@ -74,6 +80,14 @@ const HomeAssignments: React.FC = () => {
           </div>
         ))}
       </div>
+
+      <Modal title={selectedAssignment?.title} open={isModalOpen} onCancel={() => setIsModalOpen(false)} footer={null}>
+        <p>Видано: {selectedAssignment?.dateVisible}</p>
+        <p>Дедлайн: {selectedAssignment?.deadline}</p>
+        <p>Деталі домашнього завдання...</p>
+        <Input value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="Введіть відповідь..." className="mb-2" />
+        <Button type="primary" onClick={handleSend}>Send</Button>
+      </Modal>
     </div>
   );
 };
