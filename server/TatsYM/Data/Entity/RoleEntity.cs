@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace TatsYum.Models.Users
+namespace TatsYM.Data.Entity.Users
 {
     public class RoleEntity : IdentityRole
     {

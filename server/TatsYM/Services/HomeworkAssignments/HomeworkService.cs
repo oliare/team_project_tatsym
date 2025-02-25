@@ -35,8 +35,8 @@ namespace TatsYM.Services.HomeworkAssignments
 
         public async Task<HomeworkDto> Create(HomeworkCreateDto item)
         {
-            string logoPath = _mediaService.SaveImage(item.Logo);
-            string filePath = _mediaService.SaveFile(item.FilePath);
+            string logoPath = _mediaService.SaveImage(item.Logo ?? string.Empty);
+            string filePath = _mediaService.SaveFile(item.FilePath ?? string.Empty);
 
             var hw = _mapper.Map<HomeworkEntity>(item);
             hw.Logo = logoPath;

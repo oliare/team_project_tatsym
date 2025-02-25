@@ -1,4 +1,4 @@
-﻿namespace TatsYum.Models.Users
+﻿namespace TatsYM.DTOs.Autorise
 {
 
     public static class UserRoles
@@ -7,7 +7,7 @@
         public const string Student = "Student";
 
     }
-    public class UserRegisterModel
+    public class UserRegisterDto
     {
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
