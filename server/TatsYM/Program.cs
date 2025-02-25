@@ -21,11 +21,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-//builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<UserService>();
-
-builder.Services.AddScoped<HomeService, StudentsService>();
-
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -80,10 +76,8 @@ builder.Services.AddAuthorization();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<DataSeeder>();
 
-// Repositories
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
-// Services
 builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddScoped<IHomeworkService, HomeworkService>();
 builder.Services.AddScoped<IMediaService, MediaService>();

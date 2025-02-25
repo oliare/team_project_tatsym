@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using TatsYM.Data.Entity.Users;
 using TatsYM.DTOs.Autorise;
 
@@ -30,7 +26,7 @@ namespace TatsYum.Services
 
         public async Task<AuthResult> RegisterAsync(UserRegisterDto model)
         {
-            var user = _mapper.Map<UserEntity>(model); // Мапінг DTO в Entity
+            var user = _mapper.Map<UserEntity>(model);
 
             var result = await _userManager.CreateAsync(user, model.Password);
 

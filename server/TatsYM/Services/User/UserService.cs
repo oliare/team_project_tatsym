@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using System.Threading.Tasks;
 using TatsYM.Interfaces;
 using TatsYM.Data.Entity.Users;
 using TatsYM.DTOs;
 using TatsYM.DTOs.User;
-
 
 namespace TatsYM.Services.User
 {
@@ -35,7 +33,6 @@ namespace TatsYM.Services.User
                 return false;
 
             _mapper.Map(updatedUserDto, existingUser);
-
             var result = await _userManager.UpdateAsync(existingUser);
             return result.Succeeded;
         }
@@ -54,6 +51,12 @@ namespace TatsYM.Services.User
 
             var result = await _userManager.DeleteAsync(user);
             return result.Succeeded;
+        }
+
+        public async Task<List<UserEntity>> GetUsersByRoleAsync(string roleName)
+        {
+            var users = await _userManager.GetUsersInRoleAsync(roleName);
+            return users.ToList();
         }
     }
 }

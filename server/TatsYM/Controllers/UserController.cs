@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TatsYM.Services.User;
-using TatsYM.Data.Entity.Users;
 using TatsYM.DTOs.User;
 
 namespace TatsYum.Controllers
@@ -13,7 +12,6 @@ namespace TatsYum.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserService _userService;
-
         public UserController(UserService userService)
         {
             _userService = userService;
@@ -42,7 +40,6 @@ namespace TatsYum.Controllers
                 : BadRequest("Could not update user.");
         }
 
-
         [HttpDelete]
         public async Task<IActionResult> DeleteUser([FromBody] string password)
         {
@@ -53,6 +50,13 @@ namespace TatsYum.Controllers
             return await _userService.DeleteUserAsync(userId, password)
                 ? NoContent()
                 : BadRequest("Incorrect password or could not delete user.");
+        }
+
+        [HttpGet("students")]
+        public async Task<IActionResult> GetStudents()
+        {
+            var students = await _userService.GetUsersByRoleAsync("Student");
+            return Ok(students);
         }
     }
 }
