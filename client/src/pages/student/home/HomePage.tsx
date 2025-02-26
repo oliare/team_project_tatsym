@@ -28,7 +28,7 @@ const ratingData: RatingData = {
 
 const App: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gray-100 p-6 flex">
+    <div className="min-h-full bg-gray-100 p-6 flex">
       <div className="w-2/3 flex gap-4 h-[480px]">
         <div className="w-1/2 bg-white shadow-md rounded-lg p-6">
           <h1 className="text-2xl font-bold text-gray-800 text-center">Огляд успішності студентів</h1>

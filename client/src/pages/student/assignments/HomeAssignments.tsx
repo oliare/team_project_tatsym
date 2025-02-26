@@ -38,6 +38,7 @@ const HomeAssignments: React.FC = () => {
   };
 
   return (
+    <div className='bg-gray-100 min-h-full'>
     <div className="p-6">
       <div className="flex mb-4">
         <button className="border rounded-md p-2 hover:bg-custom-blue mr-2">До виконання</button>
@@ -88,6 +89,7 @@ const HomeAssignments: React.FC = () => {
         <Input value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="Введіть відповідь..." className="mb-2" />
         <Button type="primary" onClick={handleSend}>Send</Button>
       </Modal>
+    </div>
     </div>
   );
 };

@@ -6,8 +6,9 @@ import LoginPage from "./pages/student/login/LoginPage.tsx";
 import UserMaterials from "./pages/student/userMaterials/UserMaterials.tsx";
 import HomeAssignments from "./pages/student/assignments/HomeAssignments.tsx";
 import NotFoundPage from "./common/NotFoundPage.tsx";
+import PaymentPage from "./pages/student/payment/PaymentPage.tsx";
 import UserProfile from "./pages/UserProfile.tsx";
-
+import ReviewsPage from "./pages/student/reviews/reviewsPage.tsx";
 
 const placeHolder = "./public/images/student.png"
 const user = {
@@ -19,6 +20,7 @@ const user = {
   avatarUrl: placeHolder,
 };
 
+
 const App: React.FC = () => {
   return (
     <Router>
@@ -27,6 +29,8 @@ const App: React.FC = () => {
           <Route index element={<Home />} />
           <Route path="/userMaterials" element={<UserMaterials />} />
           <Route path="/homeAssignments" element={<HomeAssignments />} />
+          <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/reviewsPage" element={<ReviewsPage />} />
           <Route path="/userProfile" element={<UserProfile user={user} />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
