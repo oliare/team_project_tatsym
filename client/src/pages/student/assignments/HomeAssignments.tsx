@@ -76,6 +76,7 @@ const homeAssignments: React.FC = () => {
   ];
 
   return (
+    <div className='bg-gray-100 min-h-full'>
     <div className="p-6">
       <div className="flex mb-4">
         <button className="border rounded-md p-2 hover:bg-custom-blue mr-2">
@@ -125,6 +126,7 @@ const homeAssignments: React.FC = () => {
           </div>
         ))}
       </div>
+    </div>
     </div>
   );
 };

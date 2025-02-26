@@ -6,6 +6,7 @@ import LoginPage from "./pages/student/login/LoginPage.tsx";
 import UserMaterials from "./pages/student/userMaterials/UserMaterials.tsx";
 import HomeAssignments from "./pages/student/assignments/HomeAssignments.tsx";
 import NotFoundPage from "./common/NotFoundPage.tsx";
+import PaymentPage from "./pages/student/payment/PaymentPage.tsx";
 
 const App: React.FC = () => {
   return (
@@ -15,6 +16,7 @@ const App: React.FC = () => {
           <Route index element={<Home />} />
           <Route path="/userMaterials" element={<UserMaterials />} />
           <Route path="/homeAssignments" element={<HomeAssignments />} />
+          <Route path="/payment" element={<PaymentPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
         <Route path="/login" element={<LoginPage />} />
