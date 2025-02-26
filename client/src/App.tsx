@@ -9,7 +9,7 @@ import NotFoundPage from "./common/NotFoundPage.tsx";
 import UserProfile from "./pages/UserProfile.tsx";
 
 
-const placeHolder = "./public/images/elementor-placeholder-image.jpg"
+const placeHolder = "./public/images/student.png"
 const user = {
   name: "John",
   surname: "Doe", 
