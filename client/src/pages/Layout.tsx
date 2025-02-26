@@ -1,5 +1,5 @@
 import Header from "../components/header/Header";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import Sidebar from "../components/sidebar/Sidebar";
 import { useState } from "react";
 
@@ -9,6 +9,12 @@ const Layout = () => {
   const handleToggleCollapse = () => {
     setCollapsed(!collapsed);
   };
+
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
 
   return (
     <div className="flex flex-col h-screen">

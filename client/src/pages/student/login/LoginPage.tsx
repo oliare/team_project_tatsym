@@ -1,11 +1,23 @@
 import { Button, Checkbox, Form, Input, Typography } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { login, setAuthToken } from "../../../api/auth";
 
 const { Text, Title } = Typography;
 
 const LoginPage = () => {
-    const onFinish = () => { };
+    const navigate = useNavigate();
 
+    const onFinish = async (values: { email: string; password: string }) => {
+        try {
+            const { token } = await login(values.email, values.password);
+            setAuthToken(token);
+
+            window.dispatchEvent(new Event("authChange")); 
+            navigate("/"); 
+        } catch (err) {
+            console.log("Invalid email or password");
+        }
+    };
     return (
         <div className="relative h-screen w-screen flex justify-center items-center bg-gray-100">
             <div className="absolute inset-0 bg-cover bg-center blur-2xl" style={{ backgroundImage: "url('images/bg.jpg')" }}></div>
