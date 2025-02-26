@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TatsYum.Data;
 
@@ -11,9 +12,11 @@ using TatsYum.Data;
 namespace TatsYM.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250221213339_deleteIsActive")]
+    partial class deleteIsActive
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -185,7 +188,7 @@ namespace TatsYM.Migrations
                     b.ToTable("Subjects");
                 });
 
-            modelBuilder.Entity("TatsYM.Data.Entity.Users.RoleEntity", b =>
+            modelBuilder.Entity("TatsYum.Models.Users.RoleEntity", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -226,7 +229,7 @@ namespace TatsYM.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TatsYM.Data.Entity.Users.UserEntity", b =>
+            modelBuilder.Entity("TatsYum.Models.Users.UserEntity", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -240,6 +243,9 @@ namespace TatsYM.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("DateCreated")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
@@ -309,7 +315,7 @@ namespace TatsYM.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("TatsYM.Data.Entity.Users.RoleEntity", null)
+                    b.HasOne("TatsYum.Models.Users.RoleEntity", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -318,7 +324,7 @@ namespace TatsYM.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("TatsYM.Data.Entity.Users.UserEntity", null)
+                    b.HasOne("TatsYum.Models.Users.UserEntity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -327,7 +333,7 @@ namespace TatsYM.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("TatsYM.Data.Entity.Users.UserEntity", null)
+                    b.HasOne("TatsYum.Models.Users.UserEntity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -336,13 +342,13 @@ namespace TatsYM.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("TatsYM.Data.Entity.Users.RoleEntity", null)
+                    b.HasOne("TatsYum.Models.Users.RoleEntity", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TatsYM.Data.Entity.Users.UserEntity", null)
+                    b.HasOne("TatsYum.Models.Users.UserEntity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -351,7 +357,7 @@ namespace TatsYM.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("TatsYM.Data.Entity.Users.UserEntity", null)
+                    b.HasOne("TatsYum.Models.Users.UserEntity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

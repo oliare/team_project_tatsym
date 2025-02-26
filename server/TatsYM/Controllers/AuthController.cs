@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using TatsYum.Models.Users;
-using TatsYum.Models.Authentication;
 using TatsYum.Services;
+using TatsYM.DTOs.Autorise;
 
 namespace TatsYum.Controllers
 {
@@ -20,7 +18,7 @@ namespace TatsYum.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] UserRegisterModel model)
+        public async Task<IActionResult> Register([FromBody] UserRegisterDto model)
         {
             AuthResult result = await _authService.RegisterAsync(model);
 

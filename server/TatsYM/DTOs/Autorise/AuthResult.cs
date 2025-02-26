@@ -1,4 +1,4 @@
-﻿namespace TatsYum.Models.Authentication
+﻿namespace TatsYM.DTOs.Autorise
 {
     public class AuthResult
     {
