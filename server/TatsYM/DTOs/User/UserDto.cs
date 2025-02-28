@@ -8,5 +8,7 @@
         public required string LastName { get; set; }
         public required string Avatar { get; set; }
         public DateTime DateOfBirth { get; set; }
+
+        public int Points { get; set; } = 0;
     }
 }
