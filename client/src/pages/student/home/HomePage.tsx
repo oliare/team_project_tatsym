@@ -1,17 +1,7 @@
-import React from 'react'; 
+import React, { useEffect, useState } from 'react';
 import Calendar from "../../../components/calendar/Calendar";
-import { RatingData, LeaderboardEntry } from "../../../interfaces/interfaces";
-
-const leaderboardData: LeaderboardEntry[] = [
-  { name: 'Єрошенко Текля', points: 3736, imageUrl: '' },
-  { name: 'Житецький Домослав', points: 3668, imageUrl: '' },
-  { name: 'Жаліло Корнилій', points: 3647, imageUrl: '' },
-  { name: 'Вагилевич Устим', points: 3297, imageUrl: '' },
-  { name: 'Думка Харита', points: 3086, imageUrl: '' },
-  { name: 'Леонтович Таїсія', points: 2998, imageUrl: '' },
-  { name: 'Зеленецький Щастибог', points: 2966, imageUrl: '' },
-  { name: 'Ульяненко Устим', points: 2762, imageUrl: '' },
-];
+import { RatingData } from "../../../interfaces/interfaces";
+import { getStudents } from "../../../api/users/userProfileApi"; 
 
 const ratingData: RatingData = {
   groupRating: 12,
@@ -27,6 +17,41 @@ const ratingData: RatingData = {
 };
 
 const App: React.FC = () => {
+  const [students, setStudents] = useState<{ name: string, score: number }[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const studentData = await getStudents(); 
+        const baseScore = 3762; 
+        
+        const studentNamesWithScores = studentData.map((student, index) => {
+          const score = baseScore - (index * 339); 
+          return { name: student.firstName + " " + student.lastName, score };
+        });
+        
+        setStudents(studentNamesWithScores);
+      } catch (err) {
+        setError("Failed to fetch students.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStudents();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
   return (
     <div className="min-h-full bg-gray-100 p-6 flex">
       <div className="w-2/3 flex gap-4 h-[480px]">
@@ -64,12 +89,12 @@ const App: React.FC = () => {
         </div>
 
         <div className="w-1/2 bg-white shadow-md rounded-lg p-4 h-[480px]">
-          <h2 className="text-xl font-semibold text-gray-700">Таблиця лідерів</h2>
+          <h2 className="text-xl font-semibold text-gray-700">Список студентів</h2>
           <ul className="mt-2">
-            {leaderboardData.map((entry, index) => (
+            {students.map((student, index) => (
               <li key={index} className="flex justify-between items-center border-b py-2">
-                <span className="text-gray-800 font-medium">{entry.name}</span>
-                <span className="text-gray-600">{entry.points} балів</span>
+                <span className="text-gray-800 font-medium">{student.name}</span>
+                <span className="text-gray-800 font-medium">{student.score}</span> 
               </li>
             ))}
           </ul>
@@ -82,6 +107,5 @@ const App: React.FC = () => {
     </div>
   );
 };
-
 
 export default App;

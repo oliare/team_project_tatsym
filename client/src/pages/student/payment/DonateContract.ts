@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Web3 from "web3";
 import DonationContract from "../../../../build/contracts/Donation.json";
 
-const CONTRACT_ADDRESS = "0x4031b5700894cF2F9E97e15FBb65fbac56506d11";
+const CONTRACT_ADDRESS = "0x1dA18C0ab31C330E1975399cF6a3A72734A44EA2";
 
 export const DonateContract = () => {
   const [loading, setLoading] = useState(false);
@@ -29,8 +29,7 @@ export const DonateContract = () => {
       const donationContract = new web3.eth.Contract(DonationContract.abi as any, CONTRACT_ADDRESS);
 
       const balanceWei: bigint = await donationContract.methods.getBalance().call();
-      const balanceWeiString = balanceWei.toString();
-      const balanceEth = web3.utils.fromWei(balanceWeiString, "ether");
+      const balanceEth = web3.utils.fromWei(balanceWei.toString(), "ether");
       setBalance(balanceEth);
     } catch (error) {
       console.error("Failed to fetch balance:", error);
@@ -64,12 +63,27 @@ export const DonateContract = () => {
     try {
       setLoading(true);
 
-      await handleClearDonors();
+      const web3 = new Web3(window.ethereum);
+      const donationContract = new web3.eth.Contract(DonationContract.abi as any, CONTRACT_ADDRESS);
+  
+      const balanceWei: bigint = await donationContract.methods.getBalance().call();
+      const balanceEth = web3.utils.fromWei(balanceWei.toString(), "ether");
+  
+      if (parseFloat(balanceEth) < 0.02) {
+        alert("Insufficient balance to start the lottery");
+        return;
+      }
+
   
       const randomIndex = Math.floor(Math.random() * donors.length);
       const winner = donors[randomIndex];
       setRandomDonor(winner);
   
+      const accounts = await web3.eth.getAccounts();
+  
+      await donationContract.methods.withdrawToWinner(winner).send({ from: accounts[0] });
+  
+      await handleClearDonors();  
     } catch (error) {
       console.error("Error in picking random donor:", error);
       alert("Error picking random donor");
@@ -78,6 +92,7 @@ export const DonateContract = () => {
     }
   };
   
+
   const handleDonate = async () => {
     if (!window.ethereum) {
       alert("Please install MetaMask");

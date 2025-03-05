@@ -3,7 +3,7 @@ import Web3 from "web3";
 import { message } from "antd";
 import PaymentContract from "../../../../build/contracts/Payment.json";
 
-const CONTRACT_ADDRESS = "0xFE721AcAAf31c66edd04a145954AF2ef57275Ee6";
+const CONTRACT_ADDRESS = "0xcB024669A9dbC633937D01B67495F39aFa9bB08d";
 const exchangeRate = 101170;
 
 export const usePaymentLogic = () => {
@@ -69,12 +69,12 @@ export const usePaymentLogic = () => {
         value: web3.utils.toWei(amountETH, "ether"),
       });
   
-      console.log("Транзакція успішна, хеш:", transaction.transactionHash); // Логування хешу транзакції
+      console.log("Транзакція успішна, хеш:", transaction.transactionHash);
       message.success("Оплата успішна!");
-      await fetchBalance(); // Чекаємо завершення оновлення балансу
+      await fetchBalance(); 
     } catch (error) {
       message.error("Транзакція не вдалася");
-      console.error("Помилка при оплаті:", error); // Логування помилки
+      console.error("Помилка при оплаті:", error); 
     } finally {
       setLoading(false);
     }
@@ -89,10 +89,10 @@ export const usePaymentLogic = () => {
       const balanceWeiString = balanceWei.toString();
       const balanceEth = web3.utils.fromWei(balanceWeiString, "ether");
       setContractBalance(balanceEth);
-      console.log("Баланс оновлено:", balanceEth); // Логування для дебагу
+      console.log("Баланс оновлено:", balanceEth); 
     } catch (error) {
       message.error("Не вдалося отримати баланс контракту");
-      console.error("Помилка при отриманні балансу:", error); // Логування помилки
+      console.error("Помилка при отриманні балансу:", error); 
     }
   };
 
@@ -108,12 +108,10 @@ export const usePaymentLogic = () => {
       const web3 = new Web3(window.ethereum);
       const paymentContract = new web3.eth.Contract(PaymentContract.abi as any, CONTRACT_ADDRESS);
   
-      // Виконуємо виведення коштів
       await paymentContract.methods.withdraw().send({ from: account });
   
       message.success("Виведення коштів успішне!");
   
-      // Оновлюємо баланс після виведення
       await fetchBalance();
     } catch (error) {
       message.error("Транзакція не вдалася");

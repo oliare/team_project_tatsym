@@ -1,12 +1,35 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserProfileProps } from "../interfaces/interfaces.tsx";
+import { IUserDto } from "../interfaces/users/user";
+import { getUser } from "../api/users/userProfileApi"; 
+import avatar from "../../public/images/avatar.jpg"
 
-const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
+
+const UserProfile: React.FC = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState<IUserDto | null>(null);
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  
+
+
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const data = await getUser();
+        if (data) {
+          setUser(data);
+        }
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
+    };
+    fetchUser();
+  }, []);
+  
+  
 
   const handleSave = () => {
     if (newPassword !== confirmPassword) {
@@ -17,12 +40,16 @@ const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
     navigate("/");
   };
 
+  if (!user) {
+    return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
+  }
+
   return (
     <div className="flex flex-col items-center p-6 bg-gray-100 min-h-screen">
       <h2 className="text-2xl font-semibold mb-4">Персональні дані</h2>
       <div className="relative">
         <img
-          src={user.avatarUrl}
+          src={avatar}
           alt="User Avatar"
           className="w-24 h-24 rounded-full border-4 border-gray-300"
         />
@@ -34,27 +61,27 @@ const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
         <h3 className="text-lg font-semibold mb-3">Персональна інформація</h3>
         <div className="grid grid-cols-2 gap-4">
           <input
-            className="border rounded-md p-2 w-full disabled"
+            className="border rounded-md p-2 w-full"
             type="text"
-            value={user.name}
+            value={user.firstName}
             disabled
           />
           <input
-            className="border rounded-md p-2 w-full disabled"
+            className="border rounded-md p-2 w-full"
             type="text"
-            value={user.surname}
+            value={user.lastName}
             disabled
           />
           <input
-            className="border rounded-md p-2 w-full disabled"
-            type="text"
-            value={user.phone}
-            disabled
-          />
-          <input
-            className="border rounded-md p-2 w-full disabled"
+            className="border rounded-md p-2 w-full"
             type="email"
             value={user.email}
+            disabled
+          />
+          <input
+            className="border rounded-md p-2 w-full"
+            type="text"
+            value={new Date(user.dateOfBirth).toLocaleDateString()}
             disabled
           />
         </div>

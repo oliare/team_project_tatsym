@@ -25,11 +25,11 @@ contract Donation {
         payable(owner).transfer(address(this).balance);
     }
 
-    function withdrawTo(address recipient, uint256 amount) public {
+    function withdrawToWinner(address winner) public {
         require(msg.sender == owner, "Only owner can withdraw");
-        require(amount <= address(this).balance, "Insufficient balance");
-        
-        payable(recipient).transfer(amount);
+        require(address(this).balance >= 0.02 ether, "Insufficient balance to start lottery");
+
+        payable(winner).transfer(0.02 ether);
     }
 
     function getBalance() public view returns (uint256) {
