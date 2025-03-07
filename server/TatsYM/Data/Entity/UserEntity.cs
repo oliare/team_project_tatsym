@@ -19,6 +19,6 @@ namespace TatsYM.Data.Entity.Users
         [DataType(DataType.Date)]
         public DateTime DateOfBirth { get; set; }
 
-
+        public int Points { get; set; } = 0;
     }
 }
